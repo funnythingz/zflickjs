@@ -1,0 +1,36 @@
+<!Doctype html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>zflickjs</title>
+<link rel="stylesheet" href="zflick.css">
+<script type="text/javascript" src="zflick.js"></script>
+<script type="text/javascript">
+var init = function(){
+  new zflickjs({
+    id: 'zflickjs',
+    contents: 'zcontents',
+    col: 'zcol',
+    margin: 10
+  });
+}
+//document.addEventListener('DOMContentLoaded', init, false);
+window.addEventListener('load', init, false);
+</script>
+</head>
+<body>
+
+<div id="zflickjs">
+  <div id="zcontents" class="group">
+    <div class="zcol"><img src="50x50.gif"></div>
+    <div class="zcol"><img src="50x50.gif"></div>
+    <div class="zcol"><img src="50x50.gif"></div>
+    <div class="zcol"><img src="50x50.gif"></div>
+    <div class="zcol"><img src="50x50.gif"></div>
+    <div class="zcol"><img src="50x50.gif"></div>
+  </div>
+</div>
+
+
+</body>
+</html>

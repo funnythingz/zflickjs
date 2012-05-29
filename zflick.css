@@ -2,8 +2,8 @@
 
 img {border: 0 none; vertical-align: bottom;}
 
-.zcol {float: left;margin-left: 10px;}
-.zcol:first-child {margin-left: 0;}
+.zcol {float: left;margin-right: 10px;}
+.zcol:last-child {margin-right: 0;}
 
 /**
 * clearfix group

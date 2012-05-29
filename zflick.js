@@ -2,6 +2,9 @@
 
 //zflickjs Class Property
 var zflickjs = function(args){
+  //debug
+  var debug = document.getElementById('debug');
+  
   //args
   this.id = document.getElementById(args.id);
   this.contents = document.getElementById(args.contents);
@@ -9,7 +12,17 @@ var zflickjs = function(args){
   this.margin = args.margin;
   
   //param
-  this.idWidth = this.id.clientWidth;
+  this.idWidth = 0;
+  this.disX = 0;
+  this.num = 0;
+  this.length = 0;
+  this.warray = [];
+  
+  //_cache
+  this._cNowPos = 0;
+  this._cStartPos = 0;
+  this._cDistance = 0;
+  this._cHoge = 0;
   
   //init
   this.init();
@@ -18,36 +31,93 @@ var zflickjs = function(args){
 zflickjs.prototype = {
   init: function(){
     this.domload();
+    var self = this;
+    window.addEventListener('resize',function(){
+      self.widthInit(self);
+    }, false);
   },
-  //DOM初期化
+  //初期化
   domload: function(){
+    //DOM init
+    this.widthInit(this);
+    var self = this;
+    //event
+    this.contents.addEventListener('touchstart', function(e){
+      self._cStartPos = e.touches[0].pageX;
+    }, false);
+    this.contents.addEventListener('touchmove', function(e){
+      event.preventDefault();
+      self._cDistance = self._cStartPos - e.touches[0].pageX;
+      self._cHoge = 0;
+      //<- plus
+      if(self.disX < Math.abs(self._cDistance) && (self._cDistance > 0)){
+        self._cHoge = self._cNowPos - Math.abs(self._cDistance);
+      }
+      //-> minus
+      else if(self.disX < Math.abs(self._cDistance) && (self._cDistance < 0)){
+        self._cHoge = self._cNowPos + Math.abs(self._cDistance);
+      }
+      self.contents.style.webkitTransition = 'none';
+      self.contents.style.webkitTransform = 'translate3d(' + self._cHoge + 'px, 0, 0)';
+    }, false);
+    this.contents.addEventListener('touchend', function(e){
+      self._cNowPos = self._cHoge;
+      //最初にフィットする
+      if(self._cNowPos > 0){
+        self._cNowPos = 0;
+      }
+      //最後にフィットする
+      else if(self._cNowPos < 0 && Math.abs(self.getLastStopPos(self)) < Math.abs(self._cNowPos)){
+        self._cNowPos = self.getLastStopPos(self);
+      }
+      //中間にフィットする
+      else {
+        if(self._cDistance > 0){
+          if(self.num < self.length){
+            var num = 0;
+            alert(self.warray);
+            for(var i = 0, L = self.warray.length; i < L; i++){
+              if(Math.abs(self._cNowPos) > self.warray[i]){
+                num = i;
+              }
+            }
+            self._cNowPos = - self.warray[num];
+//            self._cNowPos = - self.warray[num];
+          }
+        }
+      }
+      self.contents.style.webkitTransition = '-webkit-transform 0.4s';
+      self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
+      self._cDistance = 0;
+    }, false);
+  },
+  //パーツの横幅をセット
+  widthInit: function(elm){
+    //param
+    elm.id.style.width = 'auto';
+    elm.idWidth = elm.id.clientWidth;
+    elm.disX = 10;
+    elm.length = elm.col.length;
     //id
-    this.id.style.width = this.idWidth + 'px';
-    this.id.style.overflow = 'hidden';
+    elm.id.style.width = elm.idWidth + 'px';
+    elm.id.style.overflow = 'hidden';
     //contents
-    this.contents.style.width = this.getContentsWidth() + 'px';
-    this.contents.style.webkitTransition = '-webkit-transform 1s';
-    this.contents.style.webkitTransform = 'translate3d(' + this.getLastStopPos() + 'px, 0, 0)';
-    this.contents.addEventListener('touchstart', this.eventFlickFunc, false);
-    this.contents.addEventListener('touchmove', this.eventFlickFunc, false);
-    this.contents.addEventListener('touchend', this.eventFlickFunc, false);
+    elm.contents.style.width = elm.getContentsWidth() + 'px';
   },
   //コンテンツ全体の横幅を取得
   getContentsWidth: function(){
     var totalWidth = 0;
-    for(var i = 0, L = this.col.length; i < L; i++){
+    for(var i = 0, L = this.length; i < L; i++){
       var c = this.col[i];
-      totalWidth += c.offsetWidth;
+      this.warray[i] = totalWidth;
+      totalWidth += c.offsetWidth + this.margin;
     }
-    totalWidth += (this.col.length - 1) * this.margin;
+    totalWidth -= this.margin;
     return totalWidth;
   },
   //フリックが止まる位置
-  getLastStopPos: function(){
-    var rtn = this.idWidth - this.getContentsWidth();
+  getLastStopPos: function(elm){
+    var rtn = elm.idWidth - elm.getContentsWidth();
     return (rtn < 0)? rtn: 0;
-  },
-  eventFlickFunc: function(e){
-    
   }
 }

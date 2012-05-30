@@ -16,7 +16,8 @@ var zflickjs = function(args){
   this.disX = 0;
   this.num = 0;
   this.length = 0;
-  this.warray = [];
+  this.carray = []; //colの横幅
+  this.warray = []; //colのleft位置
   
   //_cache
   this._cNowPos = 0;
@@ -34,6 +35,14 @@ zflickjs.prototype = {
     var self = this;
     window.addEventListener('resize',function(){
       self.widthInit(self);
+      if(self._cNowPos < self.getLastStopPos(self)){
+        self._cNowPos = self.getLastStopPos(self);
+      }
+      else{
+        self._cNowPos = self.getMiddleStopPos(self);
+      }
+      self.contents.style.webkitTransition = '-webkit-transform 0.4s';
+      self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
     }, false);
   },
   //初期化
@@ -71,19 +80,9 @@ zflickjs.prototype = {
         self._cNowPos = self.getLastStopPos(self);
       }
       //中間にフィットする
-      else {
-        if(self._cDistance > 0){
-          if(self.num < self.length){
-            var num = 0;
-            alert(self.warray);
-            for(var i = 0, L = self.warray.length; i < L; i++){
-              if(Math.abs(self._cNowPos) > self.warray[i]){
-                num = i;
-              }
-            }
-            self._cNowPos = - self.warray[num];
-//            self._cNowPos = - self.warray[num];
-          }
+      else{
+        if(self._cNowPos > self.getLastStopPos(self)){
+          self._cNowPos = self.getMiddleStopPos(self);
         }
       }
       self.contents.style.webkitTransition = '-webkit-transform 0.4s';
@@ -109,15 +108,34 @@ zflickjs.prototype = {
     var totalWidth = 0;
     for(var i = 0, L = this.length; i < L; i++){
       var c = this.col[i];
+      this.carray[i] = c.offsetWidth + this.margin;
       this.warray[i] = totalWidth;
       totalWidth += c.offsetWidth + this.margin;
     }
     totalWidth -= this.margin;
     return totalWidth;
   },
-  //フリックが止まる位置
+  //フリックが止まる位置(最後尾)
   getLastStopPos: function(elm){
     var rtn = elm.idWidth - elm.getContentsWidth();
     return (rtn < 0)? rtn: 0;
+  },
+  //フリックが止まる位置(中間)
+  getMiddleStopPos: function(elm){
+    var rtn = 0, num = 0;
+    for(var i = 0, L = elm.warray.length; i < L; i++){
+      if(elm.warray[i] < Math.abs(elm._cNowPos)){
+        num = i;
+      }
+    }
+    //colの横幅の中間よりも少ない場合
+    if(Math.abs(elm._cNowPos) < (elm.warray[num] + Math.floor(elm.carray[num]/2))){
+      rtn = - elm.warray[num];
+    }
+    //colの横幅の中間よりも多い場合
+    else{
+      rtn = - elm.warray[num + 1];
+    }
+    return rtn;
   }
 }

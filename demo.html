@@ -17,7 +17,22 @@ var init = function(){
     id: 'zflickjs',
     contents: 'zcontents',
     col: 'zcol',
-    margin: 10
+    margin: 10,
+    btn: {
+      prev: 'prev',
+      next: 'next'
+    }/**,
+    width: 80/**/
+  });
+  new zflickjs({
+    id: 'zflickjs2',
+    contents: 'zcontents2',
+    col: 'zcol',
+    margin: 10,
+    btn: {
+      prev: 'prev',
+      next: 'next'
+    }
   });
 }
 //document.addEventListener('DOMContentLoaded', init, false);
@@ -41,6 +56,26 @@ window.addEventListener('load', init, false);
     <div class="zcol"><img src="48x48.gif"></div>
     <div class="zcol"><img src="48x48.gif"></div>
   </div>
+  <span id="prev">prev</span>
+  <span id="next">next</span>
+</div>
+
+
+<div style="width: 222px; margin: 0 auto;">
+<div id="zflickjs2">
+  <div id="zcontents2" class="group">
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+  </div>
+  <span id="prev">prev</span>
+  <span id="next">next</span>
+</div>
 </div>
 
 <div id="debug"></div>

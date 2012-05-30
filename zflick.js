@@ -8,14 +8,15 @@ var zflickjs = function(args){
   //args
   this.id = document.getElementById(args.id);
   this.contents = document.getElementById(args.contents);
-  this.col = document.querySelectorAll('.' + args.col);
-  this.margin = args.margin;
+  this.col = this.contents.querySelectorAll('.' + args.col);
+  this.margin = (!args.margin || args.margin <= 0)? 0: args.margin;
   
   //param
-  this.idWidth = 0;
-  this.disX = 0;
-  this.num = 0;
-  this.length = 0;
+  this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
+  this.idWidth = (this.isArgsWidth)? args.width: this.id.clientWidth;
+  this.num = 0; //colの順番位置
+  this.disX = (!args.disX || args.disX <= 0)? 10: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
+  this.length = 0; //colの数
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
   
@@ -35,12 +36,7 @@ zflickjs.prototype = {
     var self = this;
     window.addEventListener('resize',function(){
       self.widthInit(self);
-      if(self._cNowPos < self.getLastStopPos(self)){
-        self._cNowPos = self.getLastStopPos(self);
-      }
-      else{
-        self._cNowPos = self.getMiddleStopPos(self);
-      }
+      (self._cNowPos < self.getLastStopPos(self))? self._cNowPos = self.getLastStopPos(self): self._cNowPos = self.getMiddleStopPos(self);
       self.contents.style.webkitTransition = '-webkit-transform 0.4s';
       self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
     }, false);
@@ -73,7 +69,7 @@ zflickjs.prototype = {
       self._cNowPos = self._cHoge;
       //最初にフィットする
       if(self._cNowPos > 0){
-        self._cNowPos = 0;
+        self._cNowPos = self.getStartStopPos(self);
       }
       //最後にフィットする
       else if(self._cNowPos < 0 && Math.abs(self.getLastStopPos(self)) < Math.abs(self._cNowPos)){
@@ -88,20 +84,20 @@ zflickjs.prototype = {
       self.contents.style.webkitTransition = '-webkit-transform 0.4s';
       self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
       self._cDistance = 0;
+      debug.innerHTML = self.num;
     }, false);
   },
   //パーツの横幅をセット
-  widthInit: function(elm){
+  widthInit: function(obj){
     //param
-    elm.id.style.width = 'auto';
-    elm.idWidth = elm.id.clientWidth;
-    elm.disX = 10;
-    elm.length = elm.col.length;
+    obj.id.style.width = 'auto';
+    if(!obj.isArgsWidth) obj.idWidth = obj.id.clientWidth;
+    obj.length = obj.col.length;
     //id
-    elm.id.style.width = elm.idWidth + 'px';
-    elm.id.style.overflow = 'hidden';
+    obj.id.style.width = obj.idWidth + 'px';
+    obj.id.style.overflow = 'hidden';
     //contents
-    elm.contents.style.width = elm.getContentsWidth() + 'px';
+    obj.contents.style.width = obj.getContentsWidth() + 'px';
   },
   //コンテンツ全体の横幅を取得
   getContentsWidth: function(){
@@ -115,26 +111,31 @@ zflickjs.prototype = {
     totalWidth -= this.margin;
     return totalWidth;
   },
+  //フリックが止まる位置(最初)
+  getStartStopPos: function(obj){
+    obj.num = 0;
+    return 0;
+  },
   //フリックが止まる位置(最後尾)
-  getLastStopPos: function(elm){
-    var rtn = elm.idWidth - elm.getContentsWidth();
+  getLastStopPos: function(obj){
+    var rtn = obj.idWidth - obj.getContentsWidth();
     return (rtn < 0)? rtn: 0;
   },
   //フリックが止まる位置(中間)
-  getMiddleStopPos: function(elm){
-    var rtn = 0, num = 0;
-    for(var i = 0, L = elm.warray.length; i < L; i++){
-      if(elm.warray[i] < Math.abs(elm._cNowPos)){
-        num = i;
+  getMiddleStopPos: function(obj){
+    var rtn = 0;
+    for(var i = 0, L = obj.warray.length; i < L; i++){
+      if(obj.warray[i] < Math.abs(obj._cNowPos)){
+        obj.num = i;
       }
     }
     //colの横幅の中間よりも少ない場合
-    if(Math.abs(elm._cNowPos) < (elm.warray[num] + Math.floor(elm.carray[num]/2))){
-      rtn = - elm.warray[num];
+    if(Math.abs(obj._cNowPos) < (obj.warray[obj.num] + Math.floor(obj.carray[obj.num]/2))){
+      rtn = - obj.warray[obj.num];
     }
     //colの横幅の中間よりも多い場合
     else{
-      rtn = - elm.warray[num + 1];
+      rtn = - obj.warray[obj.num + 1];
     }
     return rtn;
   }

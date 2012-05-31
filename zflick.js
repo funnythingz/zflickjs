@@ -2,8 +2,6 @@
 
 //zflickjs Class Property
 var zflickjs = function(args){
-  //debug
-  var debug = document.getElementById('debug');
   
   //options
   this.id = document.getElementById(args.id);
@@ -27,6 +25,7 @@ var zflickjs = function(args){
   this._cStartPos = 0;
   this._cDistance = 0;
   this._cHoge = 0;
+  this._orien = false; //false: prev; true: next;
   
   //init
   this.init();
@@ -35,24 +34,13 @@ var zflickjs = function(args){
 zflickjs.prototype = {
   //初期化
   init: function(){
-    this.widthInit(this);
+    //画面調整
+    this.domInit(this);
+    //touchイベント登録
     this.touchInit(this);
+    //clickイベント登録
     this.clickPrevInit(this);
     this.clickNextInit(this);
-    
-    var self = this;
-    //リサイズ対応
-    window.addEventListener('resize',function(){
-      self.widthInit(self);
-      if(self._cNowPos < self.getLastStopPos(self)){
-        self._cNowPos = self.getLastStopPos(self);
-      }
-      else{
-        self._cNowPos = self.getMiddleStopPos(self);
-      }
-      self.contents.style.webkitTransition = '-webkit-transform 0.4s';
-      self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
-    }, false);
   },
   //タッチイベント
   touchInit: function(obj){
@@ -67,50 +55,73 @@ zflickjs.prototype = {
       //<- plus
       if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
         obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
+        obj._orien = true;
       }
       //-> minus
       else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
         obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
+        obj._orien = false;
       }
       obj.contents.style.webkitTransition = 'none';
       obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
     }, false);
     obj.contents.addEventListener('touchend', function(e){
       obj._cNowPos = obj._cHoge;
-      //最初にフィットする
-      if(obj._cNowPos > 0){
-        obj._cNowPos = obj.getStartStopPos(obj);
-      }
-      //最後にフィットする
-      else if(obj._cNowPos < 0 && Math.abs(obj.getLastStopPos(obj)) < Math.abs(obj._cNowPos)){
-        obj._cNowPos = obj.getLastStopPos(obj);
-      }
-      //中間にフィットする
-      else{
-        if(obj._cNowPos > obj.getLastStopPos(obj)){
-          obj._cNowPos = obj.getMiddleStopPos(obj);
-        }
-      }
-      obj.contents.style.webkitTransition = '-webkit-transform 0.4s';
-      obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+      obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
+      obj.animation(obj);
       obj._cDistance = 0;
-      debug.innerHTML = obj.num;
     }, false);
+  },
+  //アニメーション
+  animation: function(obj){
+    //最初にフィットする
+    if(obj._cNowPos > 0){
+      obj._cNowPos = obj.getStartStopPos(obj);
+    }
+    //最後にフィットする
+    else if(obj._cNowPos < 0 && Math.abs(obj.getLastStopPos(obj)) < Math.abs(obj._cNowPos)){
+      obj._cNowPos = obj.getLastStopPos(obj);
+    }
+    //中間にフィットする
+    else{
+      if(obj._cNowPos > obj.getLastStopPos(obj)){
+        obj._cNowPos = obj.getMiddleStopPos(obj);
+      }
+    }
+    obj.contents.style.webkitTransition = '-webkit-transform 0.4s';
+    obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
   },
   //クリックイベント prev
   clickPrevInit: function(obj){
     obj.btnPrev.addEventListener('click', function(e){
-      alert(1);
+      obj._cNowPos = obj._cNowPos + obj.id.clientWidth;
+      obj.animation(obj);
     });
   },
   //クリックイベント next
   clickNextInit: function(obj){
     obj.btnNext.addEventListener('click', function(e){
-      alert(1);
+      obj._cNowPos = obj._cNowPos - obj.id.clientWidth;
+      obj.animation(obj);
     });
   },
+  //リサイズイベント
+  resizeInit: function(obj){
+    var self = obj;
+    window.addEventListener('resize',function(){
+      self.domInit(self);
+      if(self._cNowPos < self.getLastStopPos(self)){
+        self._cNowPos = self.getLastStopPos(self);
+      }
+      else{
+        self._cNowPos = self.getMiddleStopPos(self);
+      }
+      self.contents.style.webkitTransition = '-webkit-transform 0.4s';
+      self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
+    }, false);
+  },
   //パーツの横幅をセット
-  widthInit: function(obj){
+  domInit: function(obj){
     //param
     obj.id.style.width = 'auto';
     if(!obj.isArgsWidth) obj.idWidth = obj.id.clientWidth;
@@ -120,6 +131,8 @@ zflickjs.prototype = {
     obj.id.style.overflow = 'hidden';
     //contents
     obj.contents.style.width = obj.getContentsWidth() + 'px';
+    //resize登録
+    obj.resizeInit(this);
   },
   //コンテンツ全体の横幅を取得
   getContentsWidth: function(){

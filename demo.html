@@ -34,15 +34,35 @@ var init = function(){
       next: 'next2'
     }
   });
+  new zflickjs({
+    id: 'zflickjs3',
+    contents: 'zcontents3',
+    col: 'zcol',
+    margin: 10,
+    btn: {
+      prev: 'prev3',
+      next: 'next3'
+    }
+  });
 }
 //document.addEventListener('DOMContentLoaded', init, false);
 window.addEventListener('load', init, false);
 </script>
+<style type="text/css">
+.contents {
+  margin: 0 0 1em;
+}
+.clickBtn {
+  display: inline-block;
+  padding: 2px 4px;
+  border: solid 1px #f00;
+}
+</style>
 </head>
 <body>
 
 <div id="zflickjs">
-  <div id="zcontents" class="group">
+  <div id="zcontents" class="group contents">
     <div class="zcol"><img src="48x48.gif"></div>
     <div class="zcol"><img src="48x48.gif"></div>
     <div class="zcol"><img src="48x48.gif"></div>
@@ -56,14 +76,14 @@ window.addEventListener('load', init, false);
     <div class="zcol"><img src="48x48.gif"></div>
     <div class="zcol"><img src="48x48.gif"></div>
   </div>
-  <span id="prev">prev</span>
-  <span id="next">next</span>
+  <span id="prev" class="clickBtn">prev</span>
+  <span id="next" class="clickBtn">next</span>
 </div>
 
 
-<div style="width: 222px; margin: 0 auto;">
+<div style="width: 222px; margin: 1em auto 0;">
 <div id="zflickjs2">
-  <div id="zcontents2" class="group">
+  <div id="zcontents2" class="group contents">
     <div class="zcol"><img src="48x48.gif"></div>
     <div class="zcol"><img src="48x48.gif"></div>
     <div class="zcol"><img src="48x48.gif"></div>
@@ -73,12 +93,35 @@ window.addEventListener('load', init, false);
     <div class="zcol"><img src="48x48.gif"></div>
     <div class="zcol"><img src="48x48.gif"></div>
   </div>
-  <span id="prev2">prev</span>
-  <span id="next2">next</span>
+  <span id="prev2" class="clickBtn">prev</span>
+  <span id="next2" class="clickBtn">next</span>
 </div>
 </div>
+
+<div style="margin: 1em auto 0;">
+<div id="zflickjs3">
+  <div id="zcontents3" class="group contents">
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol">ahya<br>ahya<br>ahya<br></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><input type="text"></div>
+    <div class="zcol"><ul><li>list</li><li>list</li><li>list</li></ul></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><img src="48x48.gif"></div>
+    <div class="zcol"><table border="1"><tr><th>th</th><td>tdtdtdtd</td></tr><tr><th>th</th><td>tdtd</td></tr><tr><th>th</th><td>td</td></tr></table></div>
+  </div>
+  <span id="prev3" class="clickBtn">prev</span>
+  <span id="next3" class="clickBtn">next</span>
+</div>
+</div>
+
 
 <div id="debug"></div>
+<script type="text/javascript">
+//debug
+var debug = document.getElementById('debug');
+</script>
 
 </body>
 </html>

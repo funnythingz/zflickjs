@@ -27,6 +27,7 @@ var zflickjs = function(args){
   this._cHoge = 0;
   this._orien = false; //false: prev; true: next;
   this._btnFlag = (args.btn)? true: false;
+  this._ua = navigator.userAgent;
   
   //init
   this.init();
@@ -67,7 +68,7 @@ zflickjs.prototype = {
         obj._orien = false;
       }
       obj.contents.style.webkitTransition = 'none';
-      obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+      obj.contents.style.webkitTransform = (/iP(hone|od|ad)/.test(obj._ua))? 'translate3d(' + obj._cHoge + 'px, 0, 0)': 'translate(' + obj._cHoge + 'px, 0)';
     }, false);
     obj.contents.addEventListener('touchend', function(e){
       obj._cNowPos = obj._cHoge;

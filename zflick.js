@@ -5,11 +5,13 @@ var zflickjs = function(args){
   //debug
   var debug = document.getElementById('debug');
   
-  //args
+  //options
   this.id = document.getElementById(args.id);
   this.contents = document.getElementById(args.contents);
   this.col = this.contents.querySelectorAll('.' + args.col);
   this.margin = (!args.margin || args.margin <= 0)? 0: args.margin;
+  this.btnPrev = document.getElementById(args.btn.prev);
+  this.btnNext = document.getElementById(args.btn.next);
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -31,61 +33,81 @@ var zflickjs = function(args){
 }
 //zflickjs Class Method
 zflickjs.prototype = {
+  //初期化
   init: function(){
-    this.domload();
+    this.widthInit(this);
+    this.touchInit(this);
+    this.clickPrevInit(this);
+    this.clickNextInit(this);
+    
     var self = this;
+    //リサイズ対応
     window.addEventListener('resize',function(){
       self.widthInit(self);
-      (self._cNowPos < self.getLastStopPos(self))? self._cNowPos = self.getLastStopPos(self): self._cNowPos = self.getMiddleStopPos(self);
+      if(self._cNowPos < self.getLastStopPos(self)){
+        self._cNowPos = self.getLastStopPos(self);
+      }
+      else{
+        self._cNowPos = self.getMiddleStopPos(self);
+      }
       self.contents.style.webkitTransition = '-webkit-transform 0.4s';
       self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
     }, false);
   },
-  //初期化
-  domload: function(){
-    //DOM init
-    this.widthInit(this);
-    var self = this;
+  //タッチイベント
+  touchInit: function(obj){
     //event
-    this.contents.addEventListener('touchstart', function(e){
-      self._cStartPos = e.touches[0].pageX;
+    obj.contents.addEventListener('touchstart', function(e){
+      obj._cStartPos = e.touches[0].pageX;
     }, false);
-    this.contents.addEventListener('touchmove', function(e){
+    obj.contents.addEventListener('touchmove', function(e){
       event.preventDefault();
-      self._cDistance = self._cStartPos - e.touches[0].pageX;
-      self._cHoge = 0;
+      obj._cDistance = obj._cStartPos - e.touches[0].pageX;
+      obj._cHoge = 0;
       //<- plus
-      if(self.disX < Math.abs(self._cDistance) && (self._cDistance > 0)){
-        self._cHoge = self._cNowPos - Math.abs(self._cDistance);
+      if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
+        obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
       }
       //-> minus
-      else if(self.disX < Math.abs(self._cDistance) && (self._cDistance < 0)){
-        self._cHoge = self._cNowPos + Math.abs(self._cDistance);
+      else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
+        obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
       }
-      self.contents.style.webkitTransition = 'none';
-      self.contents.style.webkitTransform = 'translate3d(' + self._cHoge + 'px, 0, 0)';
+      obj.contents.style.webkitTransition = 'none';
+      obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
     }, false);
-    this.contents.addEventListener('touchend', function(e){
-      self._cNowPos = self._cHoge;
+    obj.contents.addEventListener('touchend', function(e){
+      obj._cNowPos = obj._cHoge;
       //最初にフィットする
-      if(self._cNowPos > 0){
-        self._cNowPos = self.getStartStopPos(self);
+      if(obj._cNowPos > 0){
+        obj._cNowPos = obj.getStartStopPos(obj);
       }
       //最後にフィットする
-      else if(self._cNowPos < 0 && Math.abs(self.getLastStopPos(self)) < Math.abs(self._cNowPos)){
-        self._cNowPos = self.getLastStopPos(self);
+      else if(obj._cNowPos < 0 && Math.abs(obj.getLastStopPos(obj)) < Math.abs(obj._cNowPos)){
+        obj._cNowPos = obj.getLastStopPos(obj);
       }
       //中間にフィットする
       else{
-        if(self._cNowPos > self.getLastStopPos(self)){
-          self._cNowPos = self.getMiddleStopPos(self);
+        if(obj._cNowPos > obj.getLastStopPos(obj)){
+          obj._cNowPos = obj.getMiddleStopPos(obj);
         }
       }
-      self.contents.style.webkitTransition = '-webkit-transform 0.4s';
-      self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
-      self._cDistance = 0;
-      debug.innerHTML = self.num;
+      obj.contents.style.webkitTransition = '-webkit-transform 0.4s';
+      obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+      obj._cDistance = 0;
+      debug.innerHTML = obj.num;
     }, false);
+  },
+  //クリックイベント prev
+  clickPrevInit: function(obj){
+    obj.btnPrev.addEventListener('click', function(e){
+      alert(1);
+    });
+  },
+  //クリックイベント next
+  clickNextInit: function(obj){
+    obj.btnNext.addEventListener('click', function(e){
+      alert(1);
+    });
   },
   //パーツの横幅をセット
   widthInit: function(obj){

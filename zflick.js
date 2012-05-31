@@ -8,8 +8,8 @@ var zflickjs = function(args){
   this.contents = document.getElementById(args.contents);
   this.col = this.contents.querySelectorAll('.' + args.col);
   this.margin = (!args.margin || args.margin <= 0)? 0: args.margin;
-  this.btnPrev = document.getElementById(args.btn.prev);
-  this.btnNext = document.getElementById(args.btn.next);
+  this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): false;
+  this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -26,6 +26,7 @@ var zflickjs = function(args){
   this._cDistance = 0;
   this._cHoge = 0;
   this._orien = false; //false: prev; true: next;
+  this._btnFlag = (args.btn)? true: false;
   
   //init
   this.init();
@@ -39,8 +40,11 @@ zflickjs.prototype = {
     //touchイベント登録
     this.touchInit(this);
     //clickイベント登録
-    this.clickPrevInit(this);
-    this.clickNextInit(this);
+    if(this._btnFlag){
+      this.clickPrevInit(this);
+      this.clickNextInit(this);
+    }
+    this.animation(this);
   },
   //タッチイベント
   touchInit: function(obj){
@@ -75,7 +79,7 @@ zflickjs.prototype = {
   //アニメーション
   animation: function(obj){
     //最初にフィットする
-    if(obj._cNowPos > 0){
+    if(obj._cNowPos >= 0){
       obj._cNowPos = obj.getStartStopPos(obj);
     }
     //最後にフィットする
@@ -90,6 +94,35 @@ zflickjs.prototype = {
     }
     obj.contents.style.webkitTransition = '-webkit-transform 0.4s';
     obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+    obj.btnCurrentAction(obj);
+  },
+  //ボタンのカレント表示切替
+  btnCurrentAction: function(obj){
+    //最初
+    if(obj._cNowPos >= 0){
+      if(obj._btnFlag){
+        if(obj.btnPrev.className.indexOf('zflickBtnCur') > 0){
+          obj.btnPrev.className = obj.btnPrev.className.replace('zflickBtnCur', '');
+        }
+        if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
+      }
+    }
+    //最後
+    else if(obj._cNowPos === obj.getLastStopPos(obj)){
+      if(obj._btnFlag){
+        if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
+        if(obj.btnNext.className.indexOf('zflickBtnCur') > 0){
+          obj.btnNext.className = obj.btnNext.className.replace('zflickBtnCur', '');
+        }
+      }
+    }
+    //中間
+    else{
+      if(obj._btnFlag){
+        if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
+        if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
+      }
+    }
   },
   //クリックイベント prev
   clickPrevInit: function(obj){
@@ -108,16 +141,15 @@ zflickjs.prototype = {
   //リサイズイベント
   resizeInit: function(obj){
     var self = obj;
+    var timer = false;
     window.addEventListener('resize',function(){
-      self.domInit(self);
-      if(self._cNowPos < self.getLastStopPos(self)){
-        self._cNowPos = self.getLastStopPos(self);
+      if (timer !== false) {
+        clearTimeout(timer);
       }
-      else{
-        self._cNowPos = self.getMiddleStopPos(self);
-      }
-      self.contents.style.webkitTransition = '-webkit-transform 0.4s';
-      self.contents.style.webkitTransform = 'translate3d(' + self._cNowPos + 'px, 0, 0)';
+      timer = setTimeout(function(){
+        self.domInit(self);
+        self.animation(self);
+      }, 200);
     }, false);
   },
   //パーツの横幅をセット

@@ -5,6 +5,16 @@ img {border: 0 none; vertical-align: bottom;}
 .zcol {float: left;margin-right: 10px;}
 .zcol:last-child {margin-right: 0;}
 
+.zflickClickBtn {
+  display: inline-block;
+  padding: 2px 4px;
+  border: solid 1px #f00;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.zflickBtnCur {
+  background: #0f0;
+}
+
 /**
 * clearfix group
 */

@@ -94,7 +94,7 @@ zflickjs.prototype = {
       }
     }
     obj.contents.style.webkitTransition = '-webkit-transform 0.4s';
-    obj.contents.style.webkitTransform = (/iP(hone|od|ad)/.test(obj._ua))? 'translate3d(' + obj._cHoge + 'px, 0, 0)': 'translate(' + obj._cHoge + 'px, 0)';
+    obj.contents.style.webkitTransform = (/iP(hone|od|ad)/.test(obj._ua))? 'translate3d(' + obj._cNowPos + 'px, 0, 0)': 'translate(' + obj._cNowPos + 'px, 0)';
     obj.btnCurrentAction(obj);
   },
   //ボタンのカレント表示切替

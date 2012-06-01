@@ -67,8 +67,10 @@ zflickjs.prototype = {
         obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
         obj._orien = false;
       }
-      obj.contents.style.webkitTransition = 'none';
-      obj.contents.style.webkitTransform = (/iP(hone|od|ad)/.test(obj._ua))? 'translate3d(' + obj._cHoge + 'px, 0, 0)': 'translate(' + obj._cHoge + 'px, 0)';
+      if(/iP(hone|od|ad)/.test(obj._ua)){
+        obj.contents.style.webkitTransition = 'none';
+        obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+      }
     }, false);
     obj.contents.addEventListener('touchend', function(e){
       obj._cNowPos = obj._cHoge;

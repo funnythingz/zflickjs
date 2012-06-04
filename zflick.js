@@ -1,4 +1,4 @@
-/* zflickjs v1.0test */
+/* zflickjs v1.0a */
 
 //zflickjs Class Property
 var zflickjs = function(args){

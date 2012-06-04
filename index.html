@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>zflickjs by funnythingz</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>zflickjs</h1>
+        <p>iOS, Android に特化した超軽量なflickjsを頑張ってつくるよ！CSS3 + JavaScript で。</p>
+        <p class="view"><a href="https://github.com/funnythingz/zflickjs">View the Project on GitHub <small>funnythingz/zflickjs</small></a></p>
+        <ul>
+          <li><a href="https://github.com/funnythingz/zflickjs/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/funnythingz/zflickjs/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/funnythingz/zflickjs">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>もくてき</h3>
+
+<p>iOS, Androidのみで提供するサービスではjQueryなどのライブラリを使わず、ネイティブで実装した方がパフォーマンス良いんじゃないかと思ってみた。</p>
+
+<h3>セットアップ</h3>
+
+<p></p>タグ内にzflick.cssとzflick.jsを読み込む。
+
+<pre><code>&lt;link rel="stylesheet" href="zflick.css"&gt;
+&lt;script type="text/javascript" src="zflick.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<p>下記のようにHTMLを組む。高速化のためにJSで動かす要素はID指定になっている。</p>
+
+<pre><code>&lt;div id="zflickjs"&gt;
+  &lt;div id="zcontents" class="group contents"&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="group" style="margin-top: 0.5em;"&gt;
+  &lt;span id="prev" class="zflickClickBtn" style="float: left;"&gt;prev&lt;/span&gt;
+  &lt;span id="next" class="zflickClickBtn" style="float: right;"&gt;next&lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>new zflickjs({})で初期化</p>
+
+<pre><code>&lt;script&gt;
+var init = function(){
+  new zflickjs({
+    id: 'zflickjs',
+    contents: 'zcontents',
+    col: 'zcol',
+    margin: 10,
+    btn: {
+      prev: 'prev',
+      next: 'next'
+    }
+  });
+}
+window.addEventListener('load', init, false);
+&lt;/script&gt;
+</code></pre>
+
+<h3>Support or Contact</h3>
+
+<p>twitter: <a href="https://twitter.com/funnythingz" target="_blank">@funnythingz</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/funnythingz">funnythingz</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-1882060-12");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>

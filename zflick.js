@@ -15,7 +15,7 @@ var zflickjs = function(args){
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
   this.idWidth = (this.isArgsWidth)? args.width: this.id.clientWidth;
   this.num = 0; //colの順番位置
-  this.disX = (!args.disX || args.disX <= 0)? 10: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
+  this.disX = (!args.disX || args.disX <= 0)? 35: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
   this.length = 0; //colの数
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
@@ -49,34 +49,62 @@ zflickjs.prototype = {
   },
   //タッチイベント
   touchInit: function(obj){
+    var aflag = false;
     //event
     obj.contents.addEventListener('touchstart', function(e){
-      obj._cStartPos = e.touches[0].pageX;
+      obj._cStartPos = e.touches[0].clientX;
     }, false);
     obj.contents.addEventListener('touchmove', function(e){
       event.preventDefault();
-      obj._cDistance = obj._cStartPos - e.touches[0].pageX;
-      obj._cHoge = 0;
-      //<- plus
-      if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
-        obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
-        obj._orien = true;
+      if(/Android/.test(obj._ua)){
+        if(!aflag){
+          obj._cDistance = obj._cStartPos - e.touches[0].clientX;
+          obj._cHoge = 0;
+          //<- plus
+          if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
+            obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
+            obj._orien = true;
+            aflag = true;
+          }
+          //-> minus
+          else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
+            obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
+            obj._orien = false;
+            aflag = true;
+          }
+        }
       }
-      //-> minus
-      else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
-        obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
-        obj._orien = false;
-      }
-      if(/iP(hone|od|ad)/.test(obj._ua)){
+      else if(/iP(hone|od|ad)/.test(obj._ua)){
+        obj._cDistance = obj._cStartPos - e.touches[0].clientX;
+        obj._cHoge = 0;
+        //<- plus
+        if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
+          obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
+          obj._orien = true;
+        }
+        //-> minus
+        else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
+          obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
+          obj._orien = false;
+        }
         obj.contents.style.webkitTransition = 'none';
         obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
       }
+      if(/Android/.test(obj._ua) && aflag){
+        obj._cNowPos = obj._cHoge;
+        obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
+        obj.animation(obj);
+        obj._cDistance = 0;
+      }
     }, false);
     obj.contents.addEventListener('touchend', function(e){
-      obj._cNowPos = obj._cHoge;
-      obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
-      obj.animation(obj);
-      obj._cDistance = 0;
+      aflag = false;
+      if(/iP(hone|od|ad)/.test(obj._ua)){
+        obj._cNowPos = obj._cHoge;
+        obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
+        obj.animation(obj);
+        obj._cDistance = 0;
+      }
     }, false);
   },
   //アニメーション
@@ -95,8 +123,9 @@ zflickjs.prototype = {
         obj._cNowPos = obj.getMiddleStopPos(obj);
       }
     }
-    obj.contents.style.webkitTransition = '-webkit-transform 0.4s';
-    obj.contents.style.webkitTransform = (/iP(hone|od|ad)/.test(obj._ua))? 'translate3d(' + obj._cNowPos + 'px, 0, 0)': 'translate(' + obj._cNowPos + 'px, 0)';
+    obj.contents.style.webkitTransition = '-webkit-transform 0.3s ease-in-out';
+    obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+//    obj.contents.style.webkitTransform = (/iP(hone|od|ad)/.test(obj._ua))? 'translate3d(' + obj._cNowPos + 'px, 0, 0)': 'translate(' + obj._cNowPos + 'px, 0)';
     obj.btnCurrentAction(obj);
   },
   //ボタンのカレント表示切替

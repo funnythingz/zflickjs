@@ -7,12 +7,14 @@ img {border: 0 none; vertical-align: bottom;}
 
 .zflickClickBtn {
   display: inline-block;
-  padding: 2px 4px;
-  border: solid 1px #f00;
+  padding: 4px 8px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+  font-size: 85%;
+  border-radius: 8px;
 }
 .zflickBtnCur {
-  background: #0f0;
+  background: -webkit-linear-gradient(top, #cdeb8e 0%,#a5c956 100%); /* Chrome10+,Safari5.1+ */
 }
 .zlink {-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
 

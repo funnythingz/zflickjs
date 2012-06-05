@@ -125,34 +125,38 @@ zflickjs.prototype = {
     }
     obj.contents.style.webkitTransition = '-webkit-transform 0.3s ease-in-out';
     obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
-//    obj.contents.style.webkitTransform = (/iP(hone|od|ad)/.test(obj._ua))? 'translate3d(' + obj._cNowPos + 'px, 0, 0)': 'translate(' + obj._cNowPos + 'px, 0)';
     obj.btnCurrentAction(obj);
   },
   //ボタンのカレント表示切替
   btnCurrentAction: function(obj){
-    //最初
-    if(obj._cNowPos >= 0){
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf('zflickBtnCur') > 0){
-          obj.btnPrev.className = obj.btnPrev.className.replace('zflickBtnCur', '');
-        }
-        if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
-      }
+    //横幅が足りてない場合、ボタンのカレントを不要とする
+    if(obj.id.clientWidth >= obj.contents.clientWidth){
     }
-    //最後
-    else if(obj._cNowPos === obj.getLastStopPos(obj)){
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
-        if(obj.btnNext.className.indexOf('zflickBtnCur') > 0){
-          obj.btnNext.className = obj.btnNext.className.replace('zflickBtnCur', '');
-        }
-      }
-    }
-    //中間
     else{
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
-        if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
+      //最初
+      if(obj._cNowPos >= 0){
+        if(obj._btnFlag){
+          if(obj.btnPrev.className.indexOf('zflickBtnCur') > 0){
+            obj.btnPrev.className = obj.btnPrev.className.replace('zflickBtnCur', '');
+          }
+          if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
+        }
+      }
+      //最後
+      else if(obj._cNowPos === obj.getLastStopPos(obj)){
+        if(obj._btnFlag){
+          if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
+          if(obj.btnNext.className.indexOf('zflickBtnCur') > 0){
+            obj.btnNext.className = obj.btnNext.className.replace('zflickBtnCur', '');
+          }
+        }
+      }
+      //中間
+      else{
+        if(obj._btnFlag){
+          if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
+          if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
+        }
       }
     }
   },

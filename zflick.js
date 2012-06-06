@@ -55,8 +55,8 @@ zflickjs.prototype = {
       obj._cStartPos = e.touches[0].clientX;
     }, false);
     obj.contents.addEventListener('touchmove', function(e){
-      event.preventDefault();
       if(/Android/.test(obj._ua)){
+        e.preventDefault();
         if(!aflag){
           obj._cDistance = obj._cStartPos - e.touches[0].clientX;
           obj._cHoge = 0;
@@ -79,16 +79,24 @@ zflickjs.prototype = {
         obj._cHoge = 0;
         //<- plus
         if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
+          e.preventDefault();
           obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
           obj._orien = true;
         }
         //-> minus
         else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
+          e.preventDefault();
           obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
           obj._orien = false;
         }
-        obj.contents.style.webkitTransition = 'none';
-        obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+        if(/AppleWebKit/.test(obj._ua)){
+          obj.contents.style.webkitTransition = 'none';
+          obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+        }
+        else if(/Firefox/.test(obj._ua)){
+          obj.contents.style.MozTransition = 'none';
+          obj.contents.style.MozTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+        }
       }
       if(/Android/.test(obj._ua) && aflag){
         obj._cNowPos = obj._cHoge;
@@ -123,8 +131,14 @@ zflickjs.prototype = {
         obj._cNowPos = obj.getMiddleStopPos(obj);
       }
     }
-    obj.contents.style.webkitTransition = '-webkit-transform 0.3s ease-in-out';
-    obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+    if(/AppleWebKit/.test(obj._ua)){
+      obj.contents.style.webkitTransition = '-webkit-transform 0.3s ease-in-out';
+      obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+    }
+    else if(/Firefox/.test(obj._ua)){
+      obj.contents.style.MozTransition = '-moz-transform 0.3s ease-in-out';
+      obj.contents.style.MozTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+    }
     obj.btnCurrentAction(obj);
   },
   //ボタンのカレント表示切替

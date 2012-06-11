@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com
-* @version 1.0a
+* @version 1.1a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * 
@@ -28,7 +28,6 @@
 * THE SOFTWARE.
 */
 
-
 //zflickjs Class Property
 var zflickjs = function(args){
   
@@ -39,6 +38,7 @@ var zflickjs = function(args){
   this.margin = (!args.margin || args.margin <= 0)? 0: args.margin;
   this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): false;
   this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
+  this.move = (args.move)? args.move: false;
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -269,19 +269,24 @@ zflickjs.prototype = {
   },
   //フリックが止まる位置(中間)
   getMiddleStopPos: function(obj){
-    var rtn = 0;
-    for(var i = 0, L = obj.warray.length; i < L; i++){
-      if(obj.warray[i] < Math.abs(obj._cNowPos)){
-        obj.num = i;
+    if(!obj.move){
+      var rtn = 0;
+      for(var i = 0, L = obj.warray.length; i < L; i++){
+        if(obj.warray[i] < Math.abs(obj._cNowPos)){
+          obj.num = i;
+        }
+      }
+      //colの横幅の中間よりも少ない場合
+      if(Math.abs(obj._cNowPos) < (obj.warray[obj.num] + Math.floor(obj.carray[obj.num]/2))){
+        rtn = - obj.warray[obj.num];
+      }
+      //colの横幅の中間よりも多い場合
+      else{
+        rtn = - obj.warray[obj.num + 1];
       }
     }
-    //colの横幅の中間よりも少ない場合
-    if(Math.abs(obj._cNowPos) < (obj.warray[obj.num] + Math.floor(obj.carray[obj.num]/2))){
-      rtn = - obj.warray[obj.num];
-    }
-    //colの横幅の中間よりも多い場合
     else{
-      rtn = - obj.warray[obj.num + 1];
+      rtn = - obj.move;
     }
     return rtn;
   }

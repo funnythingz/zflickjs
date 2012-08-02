@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com
-* @version 1.1a
+* @version 1.2a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * 
@@ -39,6 +39,8 @@ var zflickjs = function(args){
   this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): false;
   this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
   this.move = (args.move)? args.move: false;
+  this.autoChange = (args.autoChange)? args.autoChange: false;
+  this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -48,6 +50,8 @@ var zflickjs = function(args){
   this.length = 0; //colの数
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
+  
+  this.autoTimerCache;
   
   //_cache
   this._cNowPos = 0;
@@ -74,7 +78,13 @@ zflickjs.prototype = {
       this.clickPrevInit(this);
       this.clickNextInit(this);
     }
+    //初期値
     this.animation(this);
+    
+    //autoChange
+    if(this.autoChange){
+      this.autoChangeFunc(this);
+    }
   },
   //タッチイベント
   touchInit: function(obj){
@@ -289,5 +299,19 @@ zflickjs.prototype = {
       rtn = - obj.move;
     }
     return rtn;
+  },
+  //自動切り替え
+  autoChangeFunc: function(obj){
+    obj.autoTimerCache = setInterval(function(){
+      var a,b;
+      a = obj._cNowPos;
+      obj._cNowPos = obj._cNowPos - obj.id.clientWidth;
+      obj.animation(obj);
+      b = obj._cNowPos;
+      if(a === b){
+        obj._cNowPos = 0;
+        obj.animation(obj);
+      }
+    },obj.autoTimer);
   }
 }

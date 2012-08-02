@@ -10,7 +10,8 @@
 <meta name="format-detection" content="address=no">
 
 <link rel="stylesheet" href="css/zflick.css">
-<script type="text/javascript" src="zflick-min.js"></script>
+<!--script type="text/javascript" src="zflick-min.js"></script-->
+<script type="text/javascript" src="zflick.js"></script>
 <script type="text/javascript">
 var init = function(){
   new zflickjs({
@@ -21,7 +22,9 @@ var init = function(){
     btn: {
       prev: 'prev',
       next: 'next'
-    }
+    },
+    autoChange: true,
+    autoTimer: 2000
   });
   /**/
   new zflickjs({

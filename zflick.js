@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com
-* @version 1.1a
+* @version 1.2a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -18,6 +18,8 @@ var zflickjs = function(args){
   this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): false;
   this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
   this.move = (args.move)? args.move: false;
+  this.autoChange = (args.autoChange)? args.autoChange: false;
+  this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -27,6 +29,11 @@ var zflickjs = function(args){
   this.length = 0; //colの数
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
+  
+  if(this.autoChange){
+    this.autoChangeFlag = true;
+    this.autoTimerCache;
+  }
   
   //_cache
   this._cNowPos = 0;
@@ -44,7 +51,7 @@ var zflickjs = function(args){
 zflickjs.prototype = {
   //初期化
   init: function(){
-    //画面調整
+    //DOMセット
     this.domInit(this);
     //touchイベント登録
     this.touchInit(this);
@@ -53,7 +60,11 @@ zflickjs.prototype = {
       this.clickPrevInit(this);
       this.clickNextInit(this);
     }
+    //初期位置にセット
     this.animation(this);
+    
+    //自動切り替えセット
+    this.resetAutoChange(this);
   },
   //タッチイベント
   touchInit: function(obj){
@@ -61,6 +72,7 @@ zflickjs.prototype = {
     //event
     obj.contents.addEventListener('touchstart', function(e){
       obj._cStartPos = e.touches[0].clientX;
+      obj.killAutoChange(obj);
     }, false);
     obj.contents.addEventListener('touchmove', function(e){
       if(/Android/.test(obj._ua)){
@@ -111,6 +123,7 @@ zflickjs.prototype = {
         obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
         obj.animation(obj);
         obj._cDistance = 0;
+        obj.resetAutoChange(obj);
       }
     }, false);
     obj.contents.addEventListener('touchend', function(e){
@@ -120,6 +133,7 @@ zflickjs.prototype = {
         obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
         obj.animation(obj);
         obj._cDistance = 0;
+        obj.resetAutoChange(obj);
       }
     }, false);
   },
@@ -207,6 +221,7 @@ zflickjs.prototype = {
       timer = setTimeout(function(){
         self.domInit(self);
         self.animation(self);
+        self.resetAutoChange(this);
       }, 200);
     }, false);
   },
@@ -268,5 +283,33 @@ zflickjs.prototype = {
       rtn = - obj.move;
     }
     return rtn;
+  },
+  //自動切り替え
+  autoChangeFunc: function(obj){
+    obj.autoTimerCache = setInterval(function(){
+      obj.autoChangeFlag = true;
+      var a,b;
+      a = obj._cNowPos;
+      obj._cNowPos = obj._cNowPos - obj.id.clientWidth;
+      obj.animation(obj);
+      b = obj._cNowPos;
+      if(a === b){
+        obj._cNowPos = 0;
+        obj.animation(obj);
+      }
+    },obj.autoTimer);
+  },
+  //自動切り替え開始メソッド
+  resetAutoChange: function(obj){
+    if(obj.autoChange){
+      obj.autoChangeFunc(obj);
+    }
+  },
+  //自動切り替え停止メソッド
+  killAutoChange: function(obj){
+    if(obj.autoChangeFlag){
+      obj.autoChangeFlag = false;
+      clearInterval(obj.autoTimerCache);
+    }
   }
 }

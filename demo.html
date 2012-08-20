@@ -23,7 +23,8 @@ var init = function(){
       next: 'next'
     },
     autoChange: true,
-    autoTimer: 2000
+    autoTimer: 2000,
+    lamp: 'zflickLamp'
   });
   /**/
   new zflickjs({
@@ -52,6 +53,21 @@ var init = function(){
 window.addEventListener('load', init, false);
 </script>
 <style type="text/css">
+#zflickLamp {
+  text-align:center;
+  margin-top: 4px;
+}
+#zflickLamp > div {
+  display: inline-block;
+  background-color:#aab4be;
+  width: 10px;
+  height: 10px;
+  margin: 0 7px;
+  border-radius: 12px;
+}
+#zflickLamp > div.cur {
+  background-color:#00a0dc;
+}
 </style>
 </head>
 <body>
@@ -73,6 +89,7 @@ window.addEventListener('load', init, false);
     <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
     <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
   </div>
+  <div id="zflickLamp"></div>
 </div>
 <div class="group" style="margin-top: 0.5em;">
   <span id="prev" class="zflickClickBtn" style="float: left;">prev</span>

@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.3a
+* @version 1.4a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -341,7 +341,6 @@ zflickjs.prototype = {
           }
         },obj.autoTimer)
       );
-//      console.log('[obj.autoTimerCache]' + obj.autoTimerCache);
     }
   },
   //自動切り替え開始メソッド
@@ -358,6 +357,5 @@ zflickjs.prototype = {
       clearInterval(obj.autoTimerCache[i]);
       obj.autoTimerCache.splice(i,1);
     }
-//    console.log('[delete]' + obj.autoTimerCache);
   }
 }

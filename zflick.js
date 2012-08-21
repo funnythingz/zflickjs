@@ -21,6 +21,7 @@ var zflickjs = function(args){
   this.autoChange = (args.autoChange)? args.autoChange: false;
   this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
   this.cur = (args.cur)? args.cur: 0;
+  this.callback = (args.callback)? args.callback: function(){};
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -83,7 +84,7 @@ zflickjs.prototype = {
         e.preventDefault();
         if(!aflag){
           obj._cDistance = obj._cStartPos - e.touches[0].clientX;
-          obj._cHoge = 0;
+          obj._cHoge = obj._cNowPos;
           //<- plus
           if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
             obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
@@ -96,14 +97,16 @@ zflickjs.prototype = {
             obj._orien = false;
             aflag = true;
           }
-          obj.animation(obj);
-          obj._cDistance = 0;
-          obj.resetAutoChange(obj);
+          if(aflag){
+            obj.animation(obj);
+            obj._cDistance = 0;
+            obj.resetAutoChange(obj);
+          }
         }
       }
       else if(/iP(hone|od|ad)/.test(obj._ua)){
         obj._cDistance = obj._cStartPos - e.touches[0].clientX;
-        obj._cHoge = 0;
+        obj._cHoge = obj._cNowPos;
         //<- plus
         if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
           e.preventDefault();
@@ -117,12 +120,7 @@ zflickjs.prototype = {
           obj._orien = false;
         }
         obj.noTransAnimate(obj);
-      }/**
-      if(/Android/.test(obj._ua) && aflag){
-        obj.animation(obj);
-        obj._cDistance = 0;
-        obj.resetAutoChange(obj);
-      }/**/
+      }
     }, false);
     obj.contents.addEventListener('touchend', function(e){
       aflag = false;
@@ -163,6 +161,9 @@ zflickjs.prototype = {
       obj.contents.style.MozTransition = '-moz-transform 0.3s ease-in-out';
       obj.contents.style.MozTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
     }
+    setTimeout(function(){
+      obj.callback();
+    },300);
   },
   //transition:none;のときのアニメーション
   //主にtouchmoveのときに使う
@@ -175,6 +176,9 @@ zflickjs.prototype = {
       obj.contents.style.MozTransition = 'none';
       obj.contents.style.MozTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
     }
+    setTimeout(function(){
+      obj.callback();
+    },300);
   },
   //ボタンのカレント表示切替
   btnCurrentAction: function(obj){
@@ -256,6 +260,8 @@ zflickjs.prototype = {
     obj.id.style.width = obj.idWidth + 'px';
     obj.id.style.overflow = 'hidden';
     //contents
+    //*横幅取得時にサイズが少なく取得されるので2回実行し再取得する
+    obj.contents.style.width = obj.getContentsWidth() + 'px';
     obj.contents.style.width = obj.getContentsWidth() + 'px';
     //resize登録
     obj.resizeInit(this);

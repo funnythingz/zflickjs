@@ -176,9 +176,6 @@ zflickjs.prototype = {
       obj.contents.style.MozTransition = 'none';
       obj.contents.style.MozTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
     }
-    setTimeout(function(){
-      obj.callback();
-    },300);
   },
   //ボタンのカレント表示切替
   btnCurrentAction: function(obj){

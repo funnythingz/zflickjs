@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.4a
+* @version 1.5a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -96,6 +96,9 @@ zflickjs.prototype = {
             obj._orien = false;
             aflag = true;
           }
+          obj.animation(obj);
+          obj._cDistance = 0;
+          obj.resetAutoChange(obj);
         }
       }
       else if(/iP(hone|od|ad)/.test(obj._ua)){
@@ -114,12 +117,12 @@ zflickjs.prototype = {
           obj._orien = false;
         }
         obj.noTransAnimate(obj);
-      }
+      }/**
       if(/Android/.test(obj._ua) && aflag){
         obj.animation(obj);
         obj._cDistance = 0;
         obj.resetAutoChange(obj);
-      }
+      }/**/
     }, false);
     obj.contents.addEventListener('touchend', function(e){
       aflag = false;
@@ -133,21 +136,18 @@ zflickjs.prototype = {
   //アニメーション
   animation: function(obj){
     if(obj._orien){
-      document.getElementById('aaa').innerHTML = (obj._orien);
       if(obj.cur < obj.length - 1){
         obj.cur += 1;
       }else{
         obj.cur = obj.length - 1;
       }
     }else{
-      document.getElementById('aaa').innerHTML = (obj._orien);
       if(obj.cur > 0){
         obj.cur -= 1;
       }else if(obj.cur <= 0){
         obj.cur = 0;
       }
     }
-    document.getElementById('aaa').innerHTML = (obj.cur);
     obj._cNowPos = obj.warray[obj.cur];
     obj.transAnimate(obj);
     obj.btnCurrentAction(obj);
@@ -292,7 +292,6 @@ zflickjs.prototype = {
   //自動切り替え
   autoChangeFunc: function(obj){
     if(!obj.autoChangeFlag){
-      console.log(obj.cur);
       obj.autoTimerCache.push(
         setInterval(function(){
           obj.autoChangeFlag = true;

@@ -20,6 +20,7 @@ var zflickjs = function(args){
   this.move = (args.move)? args.move: false;
   this.autoChange = (args.autoChange)? args.autoChange: false;
   this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
+  this.cur = (args.cur)? args.cur: 0;
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -115,8 +116,6 @@ zflickjs.prototype = {
         obj.noTransAnimate(obj);
       }
       if(/Android/.test(obj._ua) && aflag){
-        obj._cNowPos = obj._cHoge;
-        obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
         obj.animation(obj);
         obj._cDistance = 0;
         obj.resetAutoChange(obj);
@@ -125,8 +124,6 @@ zflickjs.prototype = {
     obj.contents.addEventListener('touchend', function(e){
       aflag = false;
       if(/iP(hone|od|ad)/.test(obj._ua)){
-        obj._cNowPos = obj._cHoge;
-        obj._cNowPos = (obj._orien)? obj._cNowPos - obj.id.clientWidth: obj._cNowPos + obj.id.clientWidth;
         obj.animation(obj);
         obj._cDistance = 0;
         obj.resetAutoChange(obj);
@@ -135,25 +132,26 @@ zflickjs.prototype = {
   },
   //アニメーション
   animation: function(obj){
-    //最初にフィットする
-    if(obj._cNowPos >= 0){
-      obj._cNowPos = obj.getStartStopPos(obj);
-      obj.setLamps(obj,0);
-    }
-    //最後にフィットする
-    else if(obj._cNowPos < 0 && Math.abs(obj.getLastStopPos(obj)) < Math.abs(obj._cNowPos)){
-      obj._cNowPos = obj.getLastStopPos(obj);
-      obj.setLamps(obj,2);
-    }
-    //中間にフィットする
-    else{
-      if(obj._cNowPos > obj.getLastStopPos(obj)){
-        obj._cNowPos = obj.getMiddleStopPos(obj);
-        obj.setLamps(obj,1);
+    if(obj._orien){
+      document.getElementById('aaa').innerHTML = (obj._orien);
+      if(obj.cur < obj.length - 1){
+        obj.cur += 1;
+      }else{
+        obj.cur = obj.length - 1;
+      }
+    }else{
+      document.getElementById('aaa').innerHTML = (obj._orien);
+      if(obj.cur > 0){
+        obj.cur -= 1;
+      }else if(obj.cur <= 0){
+        obj.cur = 0;
       }
     }
+    document.getElementById('aaa').innerHTML = (obj.cur);
+    obj._cNowPos = obj.warray[obj.cur];
     obj.transAnimate(obj);
     obj.btnCurrentAction(obj);
+    obj.setLamps(obj,obj.cur);
   },
   //transitionあるときのアニメーション
   transAnimate: function(obj){
@@ -185,7 +183,7 @@ zflickjs.prototype = {
     }
     else{
       //最初
-      if(obj._cNowPos >= 0){
+      if(obj.cur <= 0){
         if(obj._btnFlag){
           if(obj.btnPrev.className.indexOf('zflickBtnCur') > 0){
             obj.btnPrev.className = obj.btnPrev.className.replace('zflickBtnCur', '');
@@ -194,7 +192,7 @@ zflickjs.prototype = {
         }
       }
       //最後
-      else if(obj._cNowPos === obj.getLastStopPos(obj)){
+      else if(obj.cur === obj.length - 1){
         if(obj._btnFlag){
           if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
           if(obj.btnNext.className.indexOf('zflickBtnCur') > 0){
@@ -214,7 +212,7 @@ zflickjs.prototype = {
   //クリックイベント prev
   clickPrevInit: function(obj){
     obj.btnPrev.addEventListener('click', function(e){
-      obj._cNowPos = obj._cNowPos + obj.id.clientWidth;
+      obj._orien = false;
       obj.animation(obj);
       obj.killAutoChange(obj);
       setTimeout(function(){
@@ -225,7 +223,7 @@ zflickjs.prototype = {
   //クリックイベント next
   clickNextInit: function(obj){
     obj.btnNext.addEventListener('click', function(e){
-      obj._cNowPos = obj._cNowPos - obj.id.clientWidth;
+      obj._orien = true;
       obj.animation(obj);
       obj.killAutoChange(obj);
       setTimeout(function(){
@@ -265,7 +263,7 @@ zflickjs.prototype = {
   //DOM lampを生成
   createLamp: function(obj){
     if(obj.lamp){
-      for(var i = 0; i < 3; i++){
+      for(var i = 0; i < obj.length; i++){
         obj.lamps[i] = document.createElement('div');
         obj.lamp.appendChild(obj.lamps[i]);
       }
@@ -274,7 +272,7 @@ zflickjs.prototype = {
   //lampの位置セット
   setLamps: function(obj, num){
     if(obj.lamp){
-      for(var i = 0; i < 3; i++){
+      for(var i = 0; i < obj.length; i++){
         obj.lamps[i].setAttribute('class','');
       }
       obj.lamps[num].setAttribute('class','cur');
@@ -286,59 +284,25 @@ zflickjs.prototype = {
     for(var i = 0, L = this.length; i < L; i++){
       var c = this.col[i];
       this.carray[i] = c.offsetWidth;
-      this.warray[i] = totalWidth;
+      this.warray[i] = - totalWidth;
       totalWidth += c.offsetWidth;
     }
     return totalWidth;
   },
-  //フリックが止まる位置(最初)
-  getStartStopPos: function(obj){
-    obj.num = 0;
-    return 0;
-  },
-  //フリックが止まる位置(最後尾)
-  getLastStopPos: function(obj){
-    var rtn = obj.idWidth - obj.getContentsWidth();
-    return (rtn < 0)? rtn: 0;
-  },
-  //フリックが止まる位置(中間)
-  getMiddleStopPos: function(obj){
-    if(!obj.move){
-      var rtn = 0;
-      for(var i = 0, L = obj.warray.length; i < L; i++){
-        if(obj.warray[i] < Math.abs(obj._cNowPos)){
-          obj.num = i;
-        }
-      }
-      //colの横幅の中間よりも少ない場合
-      if(Math.abs(obj._cNowPos) < (obj.warray[obj.num] + Math.floor(obj.carray[obj.num]/2))){
-        rtn = - obj.warray[obj.num];
-      }
-      //colの横幅の中間よりも多い場合
-      else{
-        rtn = - obj.warray[obj.num + 1];
-      }
-    }
-    else{
-      //moveオプション有効時の処理
-    }
-    return rtn;
-  },
   //自動切り替え
   autoChangeFunc: function(obj){
     if(!obj.autoChangeFlag){
+      console.log(obj.cur);
       obj.autoTimerCache.push(
         setInterval(function(){
           obj.autoChangeFlag = true;
-          var a,b;
-          a = obj._cNowPos;
-          obj._cNowPos = obj._cNowPos - obj.id.clientWidth;
-          obj.animation(obj);
-          b = obj._cNowPos;
-          if(a === b){
-            obj._cNowPos = 0;
-            obj.animation(obj);
+          if(obj.cur === obj.length - 1){
+            obj._orien = false;
+            obj.cur = 0;
+          }else{
+            obj._orien = true;
           }
+          obj.animation(obj);
         },obj.autoTimer)
       );
     }
@@ -352,10 +316,12 @@ zflickjs.prototype = {
   },
   //自動切り替え停止メソッド
   killAutoChange: function(obj){
-    obj.autoChangeFlag = false;
-    for(var i = 0, L = obj.autoTimerCache.length; i < L; i++){
-      clearInterval(obj.autoTimerCache[i]);
-      obj.autoTimerCache.splice(i,1);
+    if(this.autoChange){
+      obj.autoChangeFlag = false;
+      for(var i = 0, L = obj.autoTimerCache.length; i < L; i++){
+        clearInterval(obj.autoTimerCache[i]);
+        obj.autoTimerCache.splice(i,1);
+      }
     }
   }
 }

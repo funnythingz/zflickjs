@@ -243,7 +243,7 @@ zflickjs.prototype = {
       timer = setTimeout(function(){
         self.domInit(self);
         self.animation(self);
-        self.resetAutoChange(this);
+        self.resetAutoChange(self);
       }, 200);
     }, false);
   },
@@ -261,7 +261,7 @@ zflickjs.prototype = {
     obj.contents.style.width = obj.getContentsWidth() + 'px';
     obj.contents.style.width = obj.getContentsWidth() + 'px';
     //resize登録
-    obj.resizeInit(this);
+    obj.resizeInit(obj);
   },
   //DOM lampを生成
   createLamp: function(obj){

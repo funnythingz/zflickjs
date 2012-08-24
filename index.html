@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>zflickjs v1.1a</h1>
+        <h1>zflickjs v1.6a</h1>
         <p>CSS3 + JavaScriptでiOS,Androidに最適化したフリックライブラリ(flickjs)をつくるよ！</p>
         <p class="view"><a href="https://github.com/funnythingz/zflickjs">View the Project on GitHub <small>funnythingz/zflickjs</small></a></p>
         <ul>
@@ -27,7 +27,7 @@
       <section>
         <h3>もくてき</h3>
 
-<p>iOS, Androidのみで提供するサービスではjQueryなどのライブラリを使わず、ネイティブで実装した方がパフォーマンス良いんじゃないかと思い、以前つくった<a href="http://tpl.funnythingz.com/js/jcflick/reference.html" target="_blank">jQuery.jcflick</a>というライブラリを元に再開発してみた。名前もかっこよくしてみた。MIT License.</p>
+<p>iOS, Androidのみで提供するサービスではjQueryなどのライブラリを使わず、ネイティブで実装した方がパフォーマンス良いんじゃないかと思い、以前つくった<a href="http://tpl.funnythingz.com/js/jcflick/reference.html" target="_blank">jQuery.jcflick</a>というライブラリを元に再開発してみた。名前もかっこよくしてみた。MIT Licenseなんだお。</p>
 
 
 <h3><a href="demo.html" style="font-weight: bold;">DEMO</a></h3>
@@ -38,25 +38,23 @@
 <p>タグ内にzflick.cssとzflick.jsを読み込む。</p>
 
 <pre><code>&lt;link rel="stylesheet" href="zflick.css"&gt;
-&lt;script type="text/javascript" src="zflick.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="zflick.min.js"&gt;&lt;/script&gt;
 </code></pre>
 
 <p>下記のようにHTMLを組む。高速化のためにJSで動かす要素はID指定になっている。</p>
 
 <pre><code>&lt;div id="zflickjs"&gt;
   &lt;div id="zcontents" class="group contents"&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/0.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/1.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/2.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/3.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/4.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/5.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/6.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/7.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/8.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="./images/9.jpg"&gt;&lt;/a&gt;&lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="group" style="margin-top: 0.5em;"&gt;
@@ -73,10 +71,12 @@ var init = function(){
     id: 'zflickjs',
     contents: 'zcontents',
     col: 'zcol',
-    margin: 10,
     btn: {
       prev: 'prev',
       next: 'next'
+    },
+    callback: function(){
+      //コールバック関数が使えるお
     }
   });
 }

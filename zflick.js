@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.5a
+* @version 1.6a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -255,10 +255,8 @@ zflickjs.prototype = {
     obj.length = obj.col.length;
     //id
     obj.id.style.width = obj.idWidth + 'px';
-    obj.id.style.overflow = 'hidden';
+    //obj.id.style.overflow = 'hidden';
     //contents
-    //*横幅取得時にサイズが少なく取得されるので2回実行し再取得する
-    obj.contents.style.width = obj.getContentsWidth() + 'px';
     obj.contents.style.width = obj.getContentsWidth() + 'px';
     //resize登録
     obj.resizeInit(obj);

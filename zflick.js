@@ -81,18 +81,19 @@ zflickjs.prototype = {
     }, false);
     obj.contents.addEventListener('touchmove', function(e){
       if(/Android/.test(obj._ua)){
-        e.preventDefault();
         if(!aflag){
           obj._cDistance = obj._cStartPos - e.touches[0].clientX;
           obj._cHoge = obj._cNowPos;
           //<- plus
           if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
+            e.preventDefault();
             obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
             obj._orien = true;
             aflag = true;
           }
           //-> minus
           else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
+            e.preventDefault();
             obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
             obj._orien = false;
             aflag = true;

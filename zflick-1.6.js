@@ -27,7 +27,7 @@ var zflickjs = function(args){
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
   this.idWidth = (this.isArgsWidth)? args.width: this.id.clientWidth;
   this.num = 0; //colの順番位置
-  this.disX = (!args.disX || args.disX <= 0)? 35: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
+  this.disX = (!args.disX || args.disX <= 0)? 15: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
   this.length = 0; //colの数
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置

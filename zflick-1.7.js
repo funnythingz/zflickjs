@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.6a
+* @version 1.7a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -21,7 +21,8 @@ var zflickjs = function(args){
   this.autoChange = (args.autoChange)? args.autoChange: false;
   this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
   this.cur = (args.cur)? args.cur: 0;
-  this.callback = (args.callback)? args.callback: function(){};
+  this.initCallback = (args.initCallback)? args.initCallback: function(){}; //初期化完了後のコールバック関数
+  this.moveCallback = (args.moveCallback)? args.moveCallback: function(){}; //コンテンツが動いたあとのコールバック関数
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
@@ -46,6 +47,7 @@ var zflickjs = function(args){
   this._orien = false; //false: prev; true: next;
   this._btnFlag = (args.btn)? true: false;
   this._ua = navigator.userAgent;
+  this._moveFlag = false;
   
   //init
   this.init();
@@ -70,6 +72,10 @@ zflickjs.prototype = {
     
     //自動切り替えセット
     this.resetAutoChange(this);
+    
+    //コールバック
+    this.initCallback();
+    
   },
   //タッチイベント
   touchInit: function(obj){
@@ -80,6 +86,7 @@ zflickjs.prototype = {
       obj.killAutoChange(obj);
     }, false);
     obj.contents.addEventListener('touchmove', function(e){
+      obj._moveFlag = true;
       if(/Android/.test(obj._ua)){
         if(!aflag){
           obj._cDistance = obj._cStartPos - e.touches[0].clientX;
@@ -87,6 +94,7 @@ zflickjs.prototype = {
           //<- plus
           if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
             e.preventDefault();
+            e.stopPropagation();
             obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
             obj._orien = true;
             aflag = true;
@@ -94,6 +102,7 @@ zflickjs.prototype = {
           //-> minus
           else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
             e.preventDefault();
+            e.stopPropagation();
             obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
             obj._orien = false;
             aflag = true;
@@ -111,12 +120,14 @@ zflickjs.prototype = {
         //<- plus
         if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
           e.preventDefault();
+          e.stopPropagation();
           obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
           obj._orien = true;
         }
         //-> minus
         else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
           e.preventDefault();
+          e.stopPropagation();
           obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
           obj._orien = false;
         }
@@ -125,10 +136,13 @@ zflickjs.prototype = {
     }, false);
     obj.contents.addEventListener('touchend', function(e){
       aflag = false;
-      if(/iP(hone|od|ad)/.test(obj._ua)){
-        obj.animation(obj);
-        obj._cDistance = 0;
-        obj.resetAutoChange(obj);
+      if(/iP(hone|od|ad)/.test(obj._ua) && obj._moveFlag){
+        if(obj._moveFlag){
+          obj.animation(obj);
+          obj._cDistance = 0;
+          obj.resetAutoChange(obj);
+        }
+        obj._moveFlag = false;
       }
     }, false);
   },
@@ -163,7 +177,7 @@ zflickjs.prototype = {
       obj.contents.style.MozTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
     }
     setTimeout(function(){
-      obj.callback();
+      obj.moveCallback();
     },300);
   },
   //transition:none;のときのアニメーション
@@ -258,6 +272,7 @@ zflickjs.prototype = {
     obj.id.style.width = obj.idWidth + 'px';
     //obj.id.style.overflow = 'hidden';
     //contents
+    obj.contents.style.visibility = 'visible';
     obj.contents.style.width = obj.getContentsWidth() + 'px';
     //resize登録
     obj.resizeInit(obj);

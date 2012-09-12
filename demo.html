@@ -10,7 +10,7 @@
 <meta name="format-detection" content="address=no">
 
 <link rel="stylesheet" href="css/zflick.css">
-<script type="text/javascript" src="zflick.min.js"></script>
+<script type="text/javascript" src="zflick-1.7.js"></script>
 <script type="text/javascript">
 var init = function(){
   new zflickjs({
@@ -21,7 +21,10 @@ var init = function(){
     autoChange: true,
     autoTimer: 4000,
     lamp: 'zflickLamp',
-    callback: function(){
+    initCallback: function(){
+      console.log('initCallback');
+    },
+    moveCallback: function(){
       console.log(this.cur);
     }
   });
@@ -68,9 +71,8 @@ window.addEventListener('load', init, false);
 <body>
 
   <h1>zflickjs DEMO</h1>
-
   <div style="width:100%; overflow: hidden; margin-bottom: 2em;">
-    <div id="zflickjs" style="margin: 0 auto 1em;">
+    <div id="zflickjs" style="margin: 0 auto 1em;visibility:hidden;">
       <div id="zcontents" class="group contents">
         <div class="zcol"><p>0</p><a href="#" class="zlink"><img src="./images/0.jpg"></a></div>
         <div class="zcol"><p>1</p><a href="#" class="zlink"><img src="./images/1.jpg"></a></div>

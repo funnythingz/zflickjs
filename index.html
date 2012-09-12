@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>zflickjs v1.6a</h1>
+        <h1>zflickjs v1.7a</h1>
         <p>CSS3 + JavaScriptでiOS,Androidに最適化したフリックライブラリ(flickjs)をつくるよ！</p>
         <p class="view"><a href="https://github.com/funnythingz/zflickjs">View the Project on GitHub <small>funnythingz/zflickjs</small></a></p>
         <ul>
@@ -75,8 +75,11 @@ var init = function(){
       prev: 'prev',
       next: 'next'
     },
-    callback: function(){
-      //コールバック関数が使えるお
+    initCallback: function(){
+      //初期化が完了した段階で実行
+    },
+    moveCallback: function(){
+      //コンテンツが移動した場合に実行
     }
   });
 }

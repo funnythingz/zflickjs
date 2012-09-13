@@ -48,6 +48,7 @@ var zflickjs = function(args){
   this._btnFlag = (args.btn)? true: false;
   this._ua = navigator.userAgent;
   this._moveFlag = false;
+  this._initFlag = true;
   
   //init
   this.init();
@@ -272,10 +273,9 @@ zflickjs.prototype = {
     obj.id.style.width = obj.idWidth + 'px';
     //obj.id.style.overflow = 'hidden';
     //contents
-    obj.contents.style.visibility = 'visible';
     obj.contents.style.width = obj.getContentsWidth() + 'px';
     //resize登録
-    obj.resizeInit(obj);
+    //obj.resizeInit(obj);
   },
   //DOM lampを生成
   createLamp: function(obj){

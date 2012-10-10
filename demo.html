@@ -10,7 +10,7 @@
 <meta name="format-detection" content="address=no">
 
 <link rel="stylesheet" href="css/zflick.css">
-<script type="text/javascript" src="zflick-1.7.js"></script>
+<script type="text/javascript" src="zflick-1.8.min.js"></script>
 <script type="text/javascript">
 var init = function(){
   new zflickjs({
@@ -33,7 +33,7 @@ var init = function(){
     id: 'zflickjs2',
     contents: 'zcontents2',
     col: 'zcol',
-    width: 280,
+    width: 280
   });
   new zflickjs({
     id: 'zflickjs3',
@@ -58,10 +58,9 @@ window.addEventListener('load', init, false);
 #zflickLamp > div {
   display: inline-block;
   background-color:#aab4be;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 4px;
   margin: 0 7px;
-  border-radius: 12px;
 }
 #zflickLamp > div.cur {
   background-color:#00a0dc;

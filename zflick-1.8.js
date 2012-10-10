@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.7a
+* @version 1.8
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -15,8 +15,10 @@ var zflickjs = function(args){
   this.contents = document.getElementById(args.contents);
   this.col = this.contents.getElementsByClassName(args.col);
   this.lamp = (args.lamp)? document.getElementById(args.lamp): false;
+  this.lampActiveClassName = (args.lampActiveClassName)? args.lampActiveClassName: 'cur';
   this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): false;
   this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
+  this.btnActiveClassName = (args.btnActiveClassName)? args.btnActiveClassName: 'zflickBtnCur';
   this.move = (args.move)? args.move: false;
   this.autoChange = (args.autoChange)? args.autoChange: false;
   this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
@@ -195,34 +197,29 @@ zflickjs.prototype = {
   },
   //ボタンのカレント表示切替
   btnCurrentAction: function(obj){
-    //横幅が足りてない場合、ボタンのカレントを不要とする
-    if(obj.id.clientWidth >= obj.contents.clientWidth){
+    //最初
+    if(obj.cur <= 0){
+      if(obj._btnFlag){
+        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) > 0){
+          obj.btnPrev.className = obj.btnPrev.className.replace(obj.btnActiveClassName, '');
+        }
+        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
+      }
     }
+    //最後
+    else if(obj.cur === obj.length - 1){
+      if(obj._btnFlag){
+        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) > 0){
+          obj.btnNext.className = obj.btnNext.className.replace(obj.btnActiveClassName, '');
+        }
+      }
+    }
+    //中間
     else{
-      //最初
-      if(obj.cur <= 0){
-        if(obj._btnFlag){
-          if(obj.btnPrev.className.indexOf('zflickBtnCur') > 0){
-            obj.btnPrev.className = obj.btnPrev.className.replace('zflickBtnCur', '');
-          }
-          if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
-        }
-      }
-      //最後
-      else if(obj.cur === obj.length - 1){
-        if(obj._btnFlag){
-          if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
-          if(obj.btnNext.className.indexOf('zflickBtnCur') > 0){
-            obj.btnNext.className = obj.btnNext.className.replace('zflickBtnCur', '');
-          }
-        }
-      }
-      //中間
-      else{
-        if(obj._btnFlag){
-          if(obj.btnPrev.className.indexOf('zflickBtnCur') < 0) obj.btnPrev.className += ' zflickBtnCur';
-          if(obj.btnNext.className.indexOf('zflickBtnCur') < 0) obj.btnNext.className += ' zflickBtnCur';
-        }
+      if(obj._btnFlag){
+        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
       }
     }
   },
@@ -292,7 +289,7 @@ zflickjs.prototype = {
       for(var i = 0; i < obj.length; i++){
         obj.lamps[i].setAttribute('class','');
       }
-      obj.lamps[num].setAttribute('class','cur');
+      obj.lamps[num].setAttribute('class',obj.lampActiveClassName);
     }
   },
   //コンテンツ全体の横幅を取得

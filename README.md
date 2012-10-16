@@ -75,5 +75,5 @@ window.addEventListener('load', init, false);
     * {prev: 'prevBtn', next: 'nextBtn'} ... click event element
 
 
-### Credits
-twitter: <a href="https://twitter.com/funnythingz" target="_blank">@funnythingz</a>
+## Credits
+<a href="http://www.funnythingz.com">funnythingz</a>

@@ -1,0 +1,136 @@
+<!Doctype html>
+<head>
+<meta charset="utf-8">
+
+<title>zflickjs</title>
+
+<meta name="viewport" content="width=device-width">
+<meta name="apple-mobile-web-app-capable" content="no">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="address=no">
+
+<link rel="stylesheet" href="css/zflick.css">
+<script type="text/javascript" src="zflick-1.8.min.js"></script>
+<script type="text/javascript">
+var init = function(){
+  new zflickjs({
+    id: 'zflickjs',
+    contents: 'zcontents',
+    col: 'zcol',
+    width: 280,
+    autoChange: true,
+    autoTimer: 4000,
+    lamp: 'zflickLamp',
+    callback: function(){
+      console.log(this.cur);
+    }
+  });
+  /**/
+  new zflickjs({
+    id: 'zflickjs2',
+    contents: 'zcontents2',
+    col: 'zcol',
+    width: 280,
+  });
+  new zflickjs({
+    id: 'zflickjs3',
+    contents: 'zcontents3',
+    col: 'zcol',
+    width: 280,
+    btn: {
+      prev: 'prev3',
+      next: 'next3'
+    }
+  });
+  /**/
+}
+//document.addEventListener('DOMContentLoaded', init, false);
+window.addEventListener('load', init, false);
+</script>
+<style type="text/css">
+#zflickLamp {
+  text-align:center;
+  margin-top: 4px;
+}
+#zflickLamp > div {
+  display: inline-block;
+  background-color:#aab4be;
+  width: 10px;
+  height: 10px;
+  margin: 0 7px;
+  border-radius: 12px;
+}
+#zflickLamp > div.cur {
+  background-color:#00a0dc;
+}
+</style>
+</head>
+<body>
+
+  <h1>zflickjs DEMO</h1>
+
+  <div style="width:100%; overflow: hidden; margin-bottom: 2em;">
+    <div id="zflickjs" style="margin: 0 auto 1em;">
+      <div id="zcontents" class="group contents">
+        <div class="zcol"><p>0</p><a href="#" class="zlink"><img src="./dummy/0.jpg"></a></div>
+        <div class="zcol"><p>1</p><a href="#" class="zlink"><img src="./dummy/1.jpg"></a></div>
+        <div class="zcol"><p>2</p><a href="#" class="zlink"><img src="./dummy/2.jpg"></a></div>
+        <div class="zcol"><p>3</p><a href="#" class="zlink"><img src="./dummy/3.jpg"></a></div>
+        <div class="zcol"><p>4</p><a href="#" class="zlink"><img src="./dummy/4.jpg"></a></div>
+        <div class="zcol"><p>5</p><a href="#" class="zlink"><img src="./dummy/5.jpg"></a></div>
+        <div class="zcol"><p>6</p><a href="#" class="zlink"><img src="./dummy/6.jpg"></a></div>
+        <div class="zcol"><p>7</p><a href="#" class="zlink"><img src="./dummy/7.jpg"></a></div>
+        <div class="zcol"><p>8</p><a href="#" class="zlink"><img src="./dummy/8.jpg"></a></div>
+        <div class="zcol"><p>9</p><a href="#" class="zlink"><img src="./dummy/9.jpg"></a></div>
+      </div>
+      <div id="zflickLamp"></div>
+    </div>
+  </div>
+
+  <div style="width:100%; overflow: hidden; margin-bottom: 2em;">
+    <div id="zflickjs2" style="margin: 0 auto 1em;">
+      <div id="zcontents2" class="group contents">
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/0.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/1.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/2.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/3.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/4.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/5.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/6.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/7.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/8.jpg"></a></div>
+        <div class="zcol"><a href="#" class="zlink"><img src="./dummy/9.jpg"></a></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="width:100%; overflow: hidden; margin-bottom: 2em;">
+    <div id="zflickjs3" style="margin: 0 auto 1em;">
+      <div id="zcontents3" class="group contents">
+        <div class="zcol">1. text text text text text</div>
+        <div class="zcol">2. ahya<br>ahya<br>ahya<br></div>
+        <div class="zcol">3. text text text text text</div>
+        <div class="zcol">4. ahya<br>ahya<br>ahya<br></div>
+        <div class="zcol">5. text text text text text</div>
+        <div class="zcol">6. ahya<br>ahya<br>ahya<br></div>
+      </div>
+    </div>
+    <div class="group" style="margin-top: 0.5em;">
+      <span id="prev3" class="zflickClickBtn" style="float: left;">prev</span>
+      <span id="next3" class="zflickClickBtn" style="float: right;">next</span>
+    </div>
+  </div>
+
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-1882060-12");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+
+</body>
+</html>

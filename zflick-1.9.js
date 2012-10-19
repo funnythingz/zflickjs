@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.8
+* @version 1.9
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -30,7 +30,7 @@ var zflickjs = function(args){
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
   this.idWidth = (this.isArgsWidth)? args.width: this.id.clientWidth;
   this.num = 0; //colの順番位置
-  this.disX = (!args.disX || args.disX <= 0)? 15: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
+  this.disX = (!args.disX || args.disX <= 0)? 5: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
   this.length = 0; //colの数
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
@@ -49,7 +49,6 @@ var zflickjs = function(args){
   this._orien = false; //false: prev; true: next;
   this._btnFlag = (args.btn)? true: false;
   this._ua = navigator.userAgent;
-  this._moveFlag = false;
   this._initFlag = true;
   
   //init
@@ -89,35 +88,7 @@ zflickjs.prototype = {
       obj.killAutoChange(obj);
     }, false);
     obj.contents.addEventListener('touchmove', function(e){
-      obj._moveFlag = true;
-      if(/Android/.test(obj._ua)){
-        if(!aflag){
-          obj._cDistance = obj._cStartPos - e.touches[0].clientX;
-          obj._cHoge = obj._cNowPos;
-          //<- plus
-          if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
-            e.preventDefault();
-            e.stopPropagation();
-            obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
-            obj._orien = true;
-            aflag = true;
-          }
-          //-> minus
-          else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
-            e.preventDefault();
-            e.stopPropagation();
-            obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
-            obj._orien = false;
-            aflag = true;
-          }
-          if(aflag){
-            obj.animation(obj);
-            obj._cDistance = 0;
-            obj.resetAutoChange(obj);
-          }
-        }
-      }
-      else if(/iP(hone|od|ad)/.test(obj._ua)){
+      if(!aflag){
         obj._cDistance = obj._cStartPos - e.touches[0].clientX;
         obj._cHoge = obj._cNowPos;
         //<- plus
@@ -126,6 +97,7 @@ zflickjs.prototype = {
           e.stopPropagation();
           obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
           obj._orien = true;
+          aflag = true;
         }
         //-> minus
         else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
@@ -133,20 +105,17 @@ zflickjs.prototype = {
           e.stopPropagation();
           obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
           obj._orien = false;
+          aflag = true;
         }
-        obj.noTransAnimate(obj);
-      }
-    }, false);
-    obj.contents.addEventListener('touchend', function(e){
-      aflag = false;
-      if(/iP(hone|od|ad)/.test(obj._ua) && obj._moveFlag){
-        if(obj._moveFlag){
+        if(aflag){
           obj.animation(obj);
           obj._cDistance = 0;
           obj.resetAutoChange(obj);
         }
-        obj._moveFlag = false;
       }
+    }, false);
+    obj.contents.addEventListener('touchend', function(e){
+      aflag = false;
     }, false);
   },
   //アニメーション

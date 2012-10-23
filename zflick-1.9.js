@@ -31,6 +31,7 @@ var zflickjs = function(args){
   this.idWidth = (this.isArgsWidth)? args.width: this.id.clientWidth;
   this.num = 0; //colの順番位置
   this.disX = (!args.disX || args.disX <= 0)? 5: args.disX; //X軸に対してフリックした時のanimationさせるための最低条件距離
+  this.disY = (!args.disY || args.disY <= 0)? 5: args.disY; //Y軸に対してフリックした時のキャンセル処理を行うための条件距離
   this.length = 0; //colの数
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
@@ -43,7 +44,8 @@ var zflickjs = function(args){
   
   //_cache
   this._cNowPos = 0;
-  this._cStartPos = 0;
+  this._cStartPosX = 0;
+  this._cStartPosY = 0;
   this._cDistance = 0;
   this._cHoge = 0;
   this._orien = false; //false: prev; true: next;
@@ -78,39 +80,46 @@ zflickjs.prototype = {
     //コールバック
     this.initCallback();
     
+    //resize登録
+    this.resizeInit(this);
   },
   //タッチイベント
   touchInit: function(obj){
     var aflag = false;
     //event
     obj.contents.addEventListener('touchstart', function(e){
-      obj._cStartPos = e.touches[0].clientX;
+      obj._cStartPosX = e.touches[0].clientX;
+      obj._cStartPosY = e.touches[0].clientY;
       obj.killAutoChange(obj);
     }, false);
     obj.contents.addEventListener('touchmove', function(e){
-      if(!aflag){
-        obj._cDistance = obj._cStartPos - e.touches[0].clientX;
-        obj._cHoge = obj._cNowPos;
-        //<- plus
-        if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
-          e.preventDefault();
-          e.stopPropagation();
-          obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
-          obj._orien = true;
-          aflag = true;
-        }
-        //-> minus
-        else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
-          e.preventDefault();
-          e.stopPropagation();
-          obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
-          obj._orien = false;
-          aflag = true;
-        }
-        if(aflag){
-          obj.animation(obj);
-          obj._cDistance = 0;
-          obj.resetAutoChange(obj);
+      if(Math.abs(obj._cStartPosY - e.touches[0].clientY) > obj.disY){
+        //Y軸スクロールの場合フリックをキャンセル
+      }else{
+        if(!aflag){
+          obj._cDistance = obj._cStartPosX - e.touches[0].clientX;
+          obj._cHoge = obj._cNowPos;
+          //<- plus
+          if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
+            e.preventDefault();
+            e.stopPropagation();
+            obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
+            obj._orien = true;
+            aflag = true;
+          }
+          //-> minus
+          else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
+            e.preventDefault();
+            e.stopPropagation();
+            obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
+            obj._orien = false;
+            aflag = true;
+          }
+          if(aflag){
+            obj.animation(obj);
+            obj._cDistance = 0;
+            obj.resetAutoChange(obj);
+          }
         }
       }
     }, false);
@@ -237,11 +246,8 @@ zflickjs.prototype = {
     obj.length = obj.col.length;
     //id
     obj.id.style.width = obj.idWidth + 'px';
-    //obj.id.style.overflow = 'hidden';
     //contents
     obj.contents.style.width = obj.getContentsWidth() + 'px';
-    //resize登録
-    //obj.resizeInit(obj);
   },
   //DOM lampを生成
   createLamp: function(obj){
@@ -266,9 +272,9 @@ zflickjs.prototype = {
     var totalWidth = 0;
     for(var i = 0, L = this.length; i < L; i++){
       var c = this.col[i];
-      this.carray[i] = c.offsetWidth;
+      this.carray[i] = this.idWidth;
       this.warray[i] = - totalWidth;
-      totalWidth += c.offsetWidth;
+      totalWidth += this.idWidth;
     }
     return totalWidth;
   },

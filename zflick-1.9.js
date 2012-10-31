@@ -209,7 +209,7 @@ zflickjs.prototype = {
       obj.killAutoChange(obj);
       setTimeout(function(){
         obj.resetAutoChange(obj);
-      }, obj.autoTimer + 1000);
+      }, obj.autoTimer);
     },false);
   },
   //クリックイベント next
@@ -220,7 +220,7 @@ zflickjs.prototype = {
       obj.killAutoChange(obj);
       setTimeout(function(){
         obj.resetAutoChange(obj);
-      }, obj.autoTimer + 100);
+      }, obj.autoTimer);
     },false);
   },
   //リサイズイベント

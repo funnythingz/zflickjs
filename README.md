@@ -1,7 +1,9 @@
-#zflickjs v1.8
-
+#zflickjs v1.9
 
 iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
+
+## Updated of Lists
+リッチな表現やめました。超軽くなった
 
 ## Usage
 <head>タグ内にzflick.cssとzflick.jsを読み込む。

@@ -17,18 +17,18 @@ HTMLを組む。高速化のためにJSで動かす要素はID指定になって
 ```
 <div id="zflickjs">
   <div id="zcontents" class="group contents">
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
   </div>
 </div>
 <div class="group" style="margin-top: 0.5em;">
@@ -75,5 +75,5 @@ window.addEventListener('load', init, false);
     * {prev: 'prevBtn', next: 'nextBtn'} ... click event element
 
 
-### Credits
-twitter: <a href="https://twitter.com/funnythingz" target="_blank">@funnythingz</a>
+## Credits
+<a href="http://www.funnythingz.com">funnythingz</a>

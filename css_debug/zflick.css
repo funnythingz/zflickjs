@@ -6,6 +6,11 @@ img {
   vertical-align: bottom;
 }
 
+/* line 12, ../sass/zflick.scss */
+.absolute {
+  position: absolute;
+}
+
 /* line 13, ../sass/zflick.scss */
 .zcol {
   display: inline-block;

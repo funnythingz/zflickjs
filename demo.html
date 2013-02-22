@@ -10,7 +10,7 @@
 <meta name="format-detection" content="address=no">
 
 <link rel="stylesheet" href="css/zflick.css">
-<script type="text/javascript" src="zflick-1.9.min.js"></script>
+<script type="text/javascript" src="zflick-2.0a.js"></script>
 <script type="text/javascript">
 var init = function(){
   new zflickjs({
@@ -22,10 +22,8 @@ var init = function(){
     autoTimer: 4000,
     lamp: 'zflickLamp',
     initCallback: function(){
-      console.log('initCallback');
     },
     moveCallback: function(){
-      console.log(this.cur);
     }
   });
   /**/
@@ -39,6 +37,7 @@ var init = function(){
     id: 'zflickjs3',
     contents: 'zcontents3',
     col: 'zcol',
+    loop: true,
     width: 280,
     btn: {
       prev: 'prev3',

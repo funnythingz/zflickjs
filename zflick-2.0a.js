@@ -1,7 +1,7 @@
 /**
 * zflickjs
 * @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.9
+* @version 2.0a
 * @author: hiroki ooiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -20,6 +20,7 @@ var zflickjs = function(args){
   this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
   this.btnActiveClassName = (args.btnActiveClassName)? args.btnActiveClassName: 'zflickBtnCur';
   this.move = (args.move)? args.move: false;
+  this.loop = (args.loop)? args.loop: false;
   this.autoChange = (args.autoChange)? args.autoChange: false;
   this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
   this.cur = (args.cur)? args.cur: 0;
@@ -36,6 +37,7 @@ var zflickjs = function(args){
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
   this.lamps = []; //lamp要素の入れ物
+  this.cloneLength = (args.cloneLength)? args.cloneLength: 3;
   
   if(this.autoChange){
     this.autoChangeFlag = true;
@@ -52,6 +54,7 @@ var zflickjs = function(args){
   this._btnFlag = (args.btn)? true: false;
   this._ua = navigator.userAgent;
   this._initFlag = true;
+  this._totalWidth = 0;
   
   //init
   this.init();
@@ -247,7 +250,17 @@ zflickjs.prototype = {
     //id
     obj.id.style.width = obj.idWidth + 'px';
     //contents
-    obj.contents.style.width = obj.getContentsWidth() + 'px';
+    if(!obj.loop){
+      //default
+      obj.contents.style.width = obj.getContentsWidth() + 'px';
+    }else{
+      //loop init
+      obj._totalWidth = obj.getContentsWidth();
+      obj.contents.style.width = (obj._totalWidth * obj.cloneLength) + 'px';
+      obj.cloneNode(obj.cloneLength);
+      obj.loopInitPos();
+      console.log(obj.warray);
+    }
   },
   //DOM lampを生成
   createLamp: function(obj){
@@ -270,13 +283,31 @@ zflickjs.prototype = {
   //コンテンツ全体の横幅を取得
   getContentsWidth: function(){
     var totalWidth = 0;
+    var cloneNode = {};
     for(var i = 0, L = this.length; i < L; i++){
       var c = this.col[i];
       this.carray[i] = this.idWidth;
-      this.warray[i] = - totalWidth;
+      this.warray[i] = - (totalWidth);
       totalWidth += this.idWidth;
     }
     return totalWidth;
+  },
+  //loop時の初期位置を設定
+  loopInitPos: function(){
+    for(var i = 0, L = this.length; i < L; i++){
+      this.warray[i] -= this._totalWidth;
+    }
+  },
+  //コンテンツをクローンして親にappendする
+  cloneNode: function(num){
+    num = num - 1;
+    for(var h = 0; h < num; h++){
+      for(var i = 0, L = this.length; i < L; i++){
+        cloneNode = this.col[i].cloneNode(true);
+        cloneNode.setAttribute('clone', 'clone');
+        this.contents.appendChild(cloneNode);
+      }
+    }
   },
   //自動切り替え
   autoChangeFunc: function(obj){

@@ -133,22 +133,50 @@ zflickjs.prototype = {
   //アニメーション
   animation: function(obj){
     if(obj._orien){
-      if(obj.cur < obj.length - 1){
-        obj.cur += 1;
+      obj.cur += 1;
+      if(obj.cur < obj.length){
+        if(obj.loop && (obj.cur === (obj.length - 1))){
+          obj._cNowPos = (obj.warray[0] + (obj.idWidth * 2));
+          obj.noTransAnimate(obj);
+          obj._cNowPos = (obj.warray[0] + obj.idWidth);
+        }else{
+          obj._cNowPos = obj.warray[obj.cur];
+        }
       }else{
-        obj.cur = obj.length - 1;
+        if(obj.loop && (obj.cur === obj.length)){
+          obj._cNowPos = (obj.warray[0] + obj.idWidth);
+          obj.noTransAnimate(obj);
+          obj._cNowPos = obj.warray[obj.cur];
+        }
+        obj.cur = (!obj.loop)? obj.length - 1: 0;
+        obj._cNowPos = obj.warray[obj.cur];
       }
     }else{
+      obj.cur = (obj._initFlag)? obj.cur: (obj.cur - 1);
       if(obj.cur > 0){
-        obj.cur -= 1;
+        obj._cNowPos = obj.warray[obj.cur];
+        if(obj.loop && (obj.cur === (obj.length - 2))){
+          obj._cNowPos = obj.warray[(obj.length - 1)];
+          obj.noTransAnimate(obj);
+          obj._cNowPos = (obj.warray[obj.cur]);
+        }
       }else if(obj.cur <= 0){
-        obj.cur = 0;
+        if(obj.loop && (obj.cur < 0)){
+          obj.cur = (obj.length - 1);
+          obj._cNowPos = (obj.warray[(obj.length - 1)] - obj.idWidth);
+          obj.noTransAnimate(obj);
+        }else{
+          obj.cur = 0;
+        }
+        obj._cNowPos = obj.warray[obj.cur];
       }
     }
-    obj._cNowPos = obj.warray[obj.cur];
-    obj.transAnimate(obj);
+    setTimeout(function(){
+      obj.transAnimate(obj);
+    },1);
     obj.btnCurrentAction(obj);
     obj.setLamps(obj,obj.cur);
+    obj._initFlag = false;
   },
   //transitionあるときのアニメーション
   transAnimate: function(obj){
@@ -169,38 +197,39 @@ zflickjs.prototype = {
   noTransAnimate: function(obj){
     if(/AppleWebKit/.test(obj._ua)){
       obj.contents.style.webkitTransition = 'none';
-      obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+      obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
     }
     else if(/Firefox/.test(obj._ua)){
       obj.contents.style.MozTransition = 'none';
-      obj.contents.style.MozTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+      obj.contents.style.MozTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
     }
   },
   //ボタンのカレント表示切替
   btnCurrentAction: function(obj){
-    //最初
-    if(obj.cur <= 0){
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) > 0){
-          obj.btnPrev.className = obj.btnPrev.className.replace(obj.btnActiveClassName, '');
+    if(obj._btnFlag){
+      if(!obj.loop){
+        //最初
+        if(obj.cur <= 0){
+          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) > 0){
+            obj.btnPrev.className = obj.btnPrev.className.replace(obj.btnActiveClassName, '');
+          }
+          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
         }
-        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
-      }
-    }
-    //最後
-    else if(obj.cur === obj.length - 1){
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
-        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) > 0){
-          obj.btnNext.className = obj.btnNext.className.replace(obj.btnActiveClassName, '');
+        //最後
+        else if(obj.cur === obj.length - 1){
+          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) > 0){
+            obj.btnNext.className = obj.btnNext.className.replace(obj.btnActiveClassName, '');
+          }
         }
-      }
-    }
-    //中間
-    else{
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+        //中間
+        else{
+          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
+        }
+      }else{
         if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
+        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
       }
     }
   },
@@ -259,7 +288,6 @@ zflickjs.prototype = {
       obj.contents.style.width = (obj._totalWidth * obj.cloneLength) + 'px';
       obj.cloneNode(obj.cloneLength);
       obj.loopInitPos();
-      console.log(obj.warray);
     }
   },
   //DOM lampを生成
@@ -315,9 +343,13 @@ zflickjs.prototype = {
       obj.autoTimerCache.push(
         setInterval(function(){
           obj.autoChangeFlag = true;
-          if(obj.cur === obj.length - 1){
-            obj._orien = false;
-            obj.cur = 0;
+          if(!obj.loop){
+            if(obj.cur === obj.length - 1){
+              obj._orien = false;
+              obj.cur = 0;
+            }else{
+              obj._orien = true;
+            }
           }else{
             obj._orien = true;
           }

@@ -3,7 +3,7 @@
 iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
 
 ## Updated of Lists
-ループで回遊する処理をつくってるお。
+ループで回遊する処理をつくったお。
 
 ## Usage
 <head>タグ内にzflick.cssとzflick.jsを読み込む。
@@ -33,6 +33,7 @@ HTMLを組む。高速化のためにJSで動かす要素はID指定になって
     <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
     <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
   </div>
+  <div id="zflickLamp"></div>
 </div>
 <div class="group" style="margin-top: 0.5em;">
   <span id="prev" class="zflickClickBtn" style="float: left;">prev</span>
@@ -51,6 +52,8 @@ var init = function(){
     contents: 'zcontents',
     col: 'zcol',
     width: 280,
+    loop: true,
+    lamp: 'zflickLamp',
     btn: {
       prev: 'prev',
       next: 'next'

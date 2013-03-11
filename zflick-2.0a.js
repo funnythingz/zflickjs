@@ -84,7 +84,7 @@ zflickjs.prototype = {
     this.initCallback();
     
     //resize登録
-    this.resizeInit(this);
+    //this.resizeInit(this);
   },
   //タッチイベント
   touchInit: function(obj){
@@ -327,9 +327,9 @@ zflickjs.prototype = {
     }
   },
   //コンテンツをクローンして親にappendする
-  cloneNode: function(num){
-    num = num - 1;
-    for(var h = 0; h < num; h++){
+  cloneNode: function(cloneNum){
+    cloneNum -= 1;
+    for(var h = 0; h < cloneNum; h++){
       for(var i = 0, L = this.length; i < L; i++){
         cloneNode = this.col[i].cloneNode(true);
         cloneNode.setAttribute('clone', 'clone');

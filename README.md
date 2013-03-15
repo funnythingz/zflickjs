@@ -1,11 +1,11 @@
-#zflickjs v2.0a
+#zflickjs v2.0
 
 iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
 
 ## Updated of Lists
 ループで回遊する処理をつくったお。
 
-## Usage
+## Getting Started
 <head>タグ内にzflick.cssとzflick.jsを読み込む。
 
 ```
@@ -82,7 +82,6 @@ window.addEventListener('load', init, false);
     * {prev: 'prevBtn', next: 'nextBtn'} ... click event element
 * loop: true
     * true ... "true" looping!, "false" don't loop
-
 
 ## Credits
 <a href="http://www.funnythingz.com">funnythingz</a>

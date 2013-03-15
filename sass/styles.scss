@@ -26,7 +26,7 @@ time, mark, audio, video {
 /* Base text styles */
 
 body {
-  padding:10px 50px 0 0;
+  padding:10px 0 0 0;
   font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	color: #232323;
@@ -58,19 +58,19 @@ h1,h2, h3 {
 	padding-bottom: 5px;
 }
 
-h1 {
+.heading1 {
 	font-size: 30px;
 }
 
-h2 {
+.heading2 {
 	font-size: 24px;
 }
 
-h3 {
+.heading3 {
 	font-size: 18px;
 }
 
-h4, h5, h6 {
+.heading4 {
 	font-family: Arvo, Monaco, serif;
 	font-weight: 700;
 }
@@ -145,7 +145,6 @@ img {
   margin: 0 auto;
   max-width: 650px;
   padding: 5px;
-  margin: 10px 0 32px 0;
   border: 1px solid #ccc;
 }
 
@@ -177,8 +176,8 @@ table {
 
 table {
   border: 1px solid #ccc;
-  margin-bottom: 32px;
   text-align: left;
+  margin-bottom: 0;
  }
 
 th {
@@ -192,7 +191,6 @@ th {
 
 td {
   padding: 10px;
-	background: #ccc;
  }
 
 
@@ -220,6 +218,7 @@ header {
 	padding: 34px 25px 22px 50px;
 	margin: 30px 25px 0 0;
 	-webkit-font-smoothing: antialiased;
+  z-index: 1;
 }
 
 p.header {
@@ -311,7 +310,7 @@ a.buttons:hover {
 section {
   width:650px;
   float:right;
-  padding-bottom:50px;
+  padding-bottom: 20px;
 }
 
 
@@ -349,7 +348,7 @@ footer {
   }
 
   section {
-    padding:20px 84px 20px 50px;
+    padding:20px;
     margin:0 0 20px;
   }
 

@@ -5,9 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
     <title>zflickjs by funnythingz</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -16,7 +14,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">zflickjs</h1>
+        <h1 class="header heading1">zflickjs</h1>
         <p class="header">iOS, Android に特化した超軽量なflickjsを頑張ってつくるよ！CSS3 + JavaScript で。</p>
 
         <ul>
@@ -26,146 +24,137 @@
         </ul>
 
         <p class="header">This project is maintained by <a class="header name" href="https://github.com/funnythingz">funnythingz</a></p>
-
-
       </header>
-      <section>
-        <h1>zflickjs v2.0</h1>
+      <section class="section">
+        <h1 class="heading1">zflickjs v2.0</h1>
+        <p>iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた</p>
 
-<p>iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた</p>
+        <section>
+          <h1 class="heading2">Updated of Lists</h1>
+          <p>ループで回遊する処理をつくったお。</p>
+        </section>
+        <section>
+          <h1 class="heading2">Demo</h1>
+          <p><a href="demo.html">Demoをみる</a></p>
 
-<h2>Updated of Lists</h2>
+<link rel="stylesheet" href="css/zflick.css">
+<script type="text/javascript" src="zflick-2.0.min.js"></script>
+<div id="zflickjs" style="margin: 0 auto;">
+  <div id="zcontents" class="group contents">
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/0.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/1.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/2.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/3.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/4.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/5.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/6.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/7.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/8.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/9.jpg"></a></div>
+  </div>
+  <div id="zflickLamp" class="zlamp"></div>
+</div>
+<div class="group" style="margin-top: 0.5em;">
+  <span id="prev" class="zflickClickBtn" style="float: left;">prev</span>
+  <span id="next" class="zflickClickBtn" style="float: right;">next</span>
+</div>
+<script>
+new zflickjs({
+  id: 'zflickjs',
+  contents: 'zcontents',
+  col: 'zcol',
+  width: 280,
+  loop: true,
+  lamp: 'zflickLamp',
+  btn: {
+    prev: 'prev',
+    next: 'next'
+  }
+});
+</script>
 
-<p>ループで回遊する処理をつくったお。</p>
 
-<h2>Getting Started</h2>
+        </section>
+        <section>
+          <h1 class="heading2">Getting Started</h1>
+          <p>タグ内にzflick.cssとzflick-2.0.min.jsを読み込む。</p>
+          <script src="https://gist.github.com/funnythingz/5170511.js"></script>
 
-<p></p>タグ内にzflick.cssとzflick.jsを読み込む。
-
-<pre><code>&lt;link rel="stylesheet" href="zflick.css"&gt;
-&lt;script type="text/javascript" src="zflick.js"&gt;&lt;/script&gt;
-</code></pre>
-
-<h3>HTML</h3>
-
-<p>HTMLを組む。高速化のためにJSで動かす要素はID指定になっている。</p>
-
-<pre><code>&lt;div id="zflickjs"&gt;
-  &lt;div id="zcontents" class="group contents"&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-  &lt;/div&gt;
-  &lt;div id="zflickLamp"&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="group" style="margin-top: 0.5em;"&gt;
-  &lt;span id="prev" class="zflickClickBtn" style="float: left;"&gt;prev&lt;/span&gt;
-  &lt;span id="next" class="zflickClickBtn" style="float: right;"&gt;next&lt;/span&gt;
-&lt;/div&gt;
-</code></pre>
-
-<h3>JS</h3>
-
-<p>new zflickjs({})で初期化</p>
-
-<pre><code>&lt;script&gt;
-var init = function(){
-  new zflickjs({
-    id: 'zflickjs',
-    contents: 'zcontents',
-    col: 'zcol',
-    width: 280,
-    loop: true,
-    lamp: 'zflickLamp',
-    btn: {
-      prev: 'prev',
-      next: 'next'
-    }
-  });
-}
-window.addEventListener('load', init, false);
-&lt;/script&gt;
-</code></pre>
-
-<h2>Options</h2>
-
-<ul>
-<li>width: number
-
-<ul>
-<li>280 ... width move</li>
-</ul>
-</li>
-<li>autoChange: boolean
-
-<ul>
-<li>true ... "true" auto move element, "false" don't move</li>
-</ul>
-</li>
-<li>autoTimer: number
-
-<ul>
-<li>4000 ... millisecond</li>
-</ul>
-</li>
-<li>lamp: string ID
-
-<ul>
-<li>'zflickLamp' ... lamp element ID</li>
-</ul>
-</li>
-<li>initCallback: function
-
-<ul>
-<li>function(){console.log('inited')} ... inited callback method</li>
-</ul>
-</li>
-<li>moveCallback: function
-
-<ul>
-<li>function(){console.log('moved')} ... moved callback method</li>
-</ul>
-</li>
-<li>btn: object
-
-<ul>
-<li>{prev: 'prevBtn', next: 'nextBtn'} ... click event element</li>
-</ul>
-</li>
-<li>loop: true
-
-<ul>
-<li>true ... "true" looping!, "false" don't loop</li>
-</ul>
-</li>
-</ul><h2>Credits</h2>
-
-<p><a href="http://www.funnythingz.com">funnythingz</a></p>
+          <article>
+            <h1 class="heading3">HTML</h1>
+            <p>HTMLを組む。高速化のためにJSで動かす要素はID指定になっている。</p>
+            <script src="https://gist.github.com/funnythingz/5170685.js"></script>
+          </article>
+          <article>
+            <h1 class="heading3">JS</h1>
+            <p>new zflickjs({})で初期化</p>
+            <script src="https://gist.github.com/funnythingz/5170705.js"></script>
+          </article>
+        </section>
+        <section>
+          <h1 class="heading2">Options</h1>
+          <ul>
+            <li>width: number
+              <ul>
+                <li>280 ... width move</li>
+              </ul>
+            </li>
+            <li>autoChange: boolean
+              <ul>
+                <li>true ... "true" auto move element, "false" don't move</li>
+              </ul>
+            </li>
+            <li>autoTimer: number
+              <ul>
+                <li>4000 ... millisecond</li>
+              </ul>
+            </li>
+            <li>lamp: string ID
+              <ul>
+                <li>'zflickLamp' ... lamp element ID</li>
+              </ul>
+            </li>
+            <li>initCallback: function
+              <ul>
+                <li>function(){console.log('inited')} ... inited callback method</li>
+              </ul>
+            </li>
+            <li>moveCallback: function
+              <ul>
+                <li>function(){console.log('moved')} ... moved callback method</li>
+              </ul>
+            </li>
+            <li>btn: object
+              <ul>
+                <li>{prev: 'prevBtn', next: 'nextBtn'} ... click event element</li>
+              </ul>
+            </li>
+            <li>loop: true
+              <ul>
+                <li>true ... "true" looping!, "false" don't loop</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h1 class="heading2">Credits</h1>
+          <p><a href="http://www.funnythingz.com">funnythingz</a></p>
+        </section>
       </section>
       <footer>
         <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
       </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-1882060-12");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+    <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+      </script>
+      <script type="text/javascript">
+      try {
+        var pageTracker = _gat._getTracker("UA-1882060-12");
+        pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
   </body>
 </html>

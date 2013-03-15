@@ -1,39 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>zflickjs by funnythingz</title>
 
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <title>zflickjs by funnythingz</title>
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>zflickjs</h1>
-        <h2>iOS, Android に特化した超軽量なflickjsを頑張ってつくるよ！</h2>
-        <a href="https://github.com/funnythingz/zflickjs" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">zflickjs</h1>
+        <p class="header">iOS, Android に特化した超軽量なflickjsを頑張ってつくるよ！CSS3 + JavaScript で。</p>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <p>iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた</p>
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/funnythingz/zflickjs/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/funnythingz/zflickjs/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/funnythingz/zflickjs">View On GitHub</a></li>
+        </ul>
 
-<h2>Demo</h2>
-<p><a href="demo.html">Demoをみる</a></p>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/funnythingz">funnythingz</a></p>
 
-<h2>Usage</h2>
+
+      </header>
+      <section>
+        <h1>zflickjs v2.0</h1>
+
+<p>iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた</p>
+
+<h2>Updated of Lists</h2>
+
+<p>ループで回遊する処理をつくったお。</p>
+
+<h2>Getting Started</h2>
 
 <p></p>タグ内にzflick.cssとzflick.jsを読み込む。
 
@@ -47,19 +52,20 @@
 
 <pre><code>&lt;div id="zflickjs"&gt;
   &lt;div id="zcontents" class="group contents"&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
-    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/126x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
+    &lt;div class="zcol"&gt;&lt;a href="#" class="zlink"&gt;&lt;img src="dummy/48x48.gif"&gt;&lt;/a&gt;&lt;/div&gt;
   &lt;/div&gt;
+  &lt;div id="zflickLamp"&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="group" style="margin-top: 0.5em;"&gt;
   &lt;span id="prev" class="zflickClickBtn" style="float: left;"&gt;prev&lt;/span&gt;
@@ -78,6 +84,8 @@ var init = function(){
     contents: 'zcontents',
     col: 'zcol',
     width: 280,
+    loop: true,
+    lamp: 'zflickLamp',
     btn: {
       prev: 'prev',
       next: 'next'
@@ -133,29 +141,22 @@ window.addEventListener('load', init, false);
 <li>{prev: 'prevBtn', next: 'nextBtn'} ... click event element</li>
 </ul>
 </li>
-</ul><h3>Credits</h3>
+<li>loop: true
 
-<p>twitter: <a href="https://twitter.com/funnythingz" target="_blank">@funnythingz</a></p>
-        </section>
+<ul>
+<li>true ... "true" looping!, "false" don't loop</li>
+</ul>
+</li>
+</ul><h2>Credits</h2>
 
-        <aside id="sidebar">
-          <a href="https://github.com/funnythingz/zflickjs/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/funnythingz/zflickjs/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/funnythingz/zflickjs"></a> is maintained by <a href="https://github.com/funnythingz">funnythingz</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+<p><a href="http://www.funnythingz.com">funnythingz</a></p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
     </div>
-
-            <script type="text/javascript">
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		          <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>

@@ -1,8 +1,7 @@
 /**
 * zflickjs
-* @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 2.0a
-* @author: hiroki ooiwa;
+* @version 2.0
+* @author: Hiroki Oiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
 */

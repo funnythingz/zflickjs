@@ -1,8 +1,7 @@
 /**
 * zflickjs
-* @extend jquery-jcflick.js:http://tpl.funnythingz.com/js/jcflick/
-* @version 1.9
-* @author: hiroki ooiwa;
+* @version 2.0
+* @author: Hiroki Oiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)
 */
@@ -20,6 +19,7 @@ var zflickjs = function(args){
   this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
   this.btnActiveClassName = (args.btnActiveClassName)? args.btnActiveClassName: 'zflickBtnCur';
   this.move = (args.move)? args.move: false;
+  this.loop = (args.loop)? args.loop: false;
   this.autoChange = (args.autoChange)? args.autoChange: false;
   this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
   this.cur = (args.cur)? args.cur: 0;
@@ -36,6 +36,7 @@ var zflickjs = function(args){
   this.carray = []; //colの横幅
   this.warray = []; //colのleft位置
   this.lamps = []; //lamp要素の入れ物
+  this.cloneLength = (args.cloneLength)? args.cloneLength: 3;
   
   if(this.autoChange){
     this.autoChangeFlag = true;
@@ -52,6 +53,7 @@ var zflickjs = function(args){
   this._btnFlag = (args.btn)? true: false;
   this._ua = navigator.userAgent;
   this._initFlag = true;
+  this._totalWidth = 0;
   
   //init
   this.init();
@@ -81,7 +83,7 @@ zflickjs.prototype = {
     this.initCallback();
     
     //resize登録
-    this.resizeInit(this);
+    //this.resizeInit(this);
   },
   //タッチイベント
   touchInit: function(obj){
@@ -130,22 +132,50 @@ zflickjs.prototype = {
   //アニメーション
   animation: function(obj){
     if(obj._orien){
-      if(obj.cur < obj.length - 1){
-        obj.cur += 1;
+      obj.cur += 1;
+      if(obj.cur < obj.length){
+        if(obj.loop && (obj.cur === (obj.length - 1))){
+          obj._cNowPos = (obj.warray[0] + (obj.idWidth * 2));
+          obj.noTransAnimate(obj);
+          obj._cNowPos = (obj.warray[0] + obj.idWidth);
+        }else{
+          obj._cNowPos = obj.warray[obj.cur];
+        }
       }else{
-        obj.cur = obj.length - 1;
+        if(obj.loop && (obj.cur === obj.length)){
+          obj._cNowPos = (obj.warray[0] + obj.idWidth);
+          obj.noTransAnimate(obj);
+          obj._cNowPos = obj.warray[obj.cur];
+        }
+        obj.cur = (!obj.loop)? obj.length - 1: 0;
+        obj._cNowPos = obj.warray[obj.cur];
       }
     }else{
+      obj.cur = (obj._initFlag)? obj.cur: (obj.cur - 1);
       if(obj.cur > 0){
-        obj.cur -= 1;
+        obj._cNowPos = obj.warray[obj.cur];
+        if(obj.loop && (obj.cur === (obj.length - 2))){
+          obj._cNowPos = obj.warray[(obj.length - 1)];
+          obj.noTransAnimate(obj);
+          obj._cNowPos = (obj.warray[obj.cur]);
+        }
       }else if(obj.cur <= 0){
-        obj.cur = 0;
+        if(obj.loop && (obj.cur < 0)){
+          obj.cur = (obj.length - 1);
+          obj._cNowPos = (obj.warray[(obj.length - 1)] - obj.idWidth);
+          obj.noTransAnimate(obj);
+        }else{
+          obj.cur = 0;
+        }
+        obj._cNowPos = obj.warray[obj.cur];
       }
     }
-    obj._cNowPos = obj.warray[obj.cur];
-    obj.transAnimate(obj);
+    setTimeout(function(){
+      obj.transAnimate(obj);
+    },1);
     obj.btnCurrentAction(obj);
     obj.setLamps(obj,obj.cur);
+    obj._initFlag = false;
   },
   //transitionあるときのアニメーション
   transAnimate: function(obj){
@@ -166,38 +196,39 @@ zflickjs.prototype = {
   noTransAnimate: function(obj){
     if(/AppleWebKit/.test(obj._ua)){
       obj.contents.style.webkitTransition = 'none';
-      obj.contents.style.webkitTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+      obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
     }
     else if(/Firefox/.test(obj._ua)){
       obj.contents.style.MozTransition = 'none';
-      obj.contents.style.MozTransform = 'translate3d(' + obj._cHoge + 'px, 0, 0)';
+      obj.contents.style.MozTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
     }
   },
   //ボタンのカレント表示切替
   btnCurrentAction: function(obj){
-    //最初
-    if(obj.cur <= 0){
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) > 0){
-          obj.btnPrev.className = obj.btnPrev.className.replace(obj.btnActiveClassName, '');
+    if(obj._btnFlag){
+      if(!obj.loop){
+        //最初
+        if(obj.cur <= 0){
+          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) > 0){
+            obj.btnPrev.className = obj.btnPrev.className.replace(obj.btnActiveClassName, '');
+          }
+          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
         }
-        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
-      }
-    }
-    //最後
-    else if(obj.cur === obj.length - 1){
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
-        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) > 0){
-          obj.btnNext.className = obj.btnNext.className.replace(obj.btnActiveClassName, '');
+        //最後
+        else if(obj.cur === obj.length - 1){
+          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) > 0){
+            obj.btnNext.className = obj.btnNext.className.replace(obj.btnActiveClassName, '');
+          }
         }
-      }
-    }
-    //中間
-    else{
-      if(obj._btnFlag){
-        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+        //中間
+        else{
+          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
+        }
+      }else{
         if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
+        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
       }
     }
   },
@@ -247,7 +278,16 @@ zflickjs.prototype = {
     //id
     obj.id.style.width = obj.idWidth + 'px';
     //contents
-    obj.contents.style.width = obj.getContentsWidth() + 'px';
+    if(!obj.loop){
+      //default
+      obj.contents.style.width = obj.getContentsWidth() + 'px';
+    }else{
+      //loop init
+      obj._totalWidth = obj.getContentsWidth();
+      obj.contents.style.width = (obj._totalWidth * obj.cloneLength) + 'px';
+      obj.cloneNode(obj.cloneLength);
+      obj.loopInitPos();
+    }
   },
   //DOM lampを生成
   createLamp: function(obj){
@@ -270,13 +310,31 @@ zflickjs.prototype = {
   //コンテンツ全体の横幅を取得
   getContentsWidth: function(){
     var totalWidth = 0;
+    var cloneNode = {};
     for(var i = 0, L = this.length; i < L; i++){
       var c = this.col[i];
       this.carray[i] = this.idWidth;
-      this.warray[i] = - totalWidth;
+      this.warray[i] = - (totalWidth);
       totalWidth += this.idWidth;
     }
     return totalWidth;
+  },
+  //loop時の初期位置を設定
+  loopInitPos: function(){
+    for(var i = 0, L = this.length; i < L; i++){
+      this.warray[i] -= this._totalWidth;
+    }
+  },
+  //コンテンツをクローンして親にappendする
+  cloneNode: function(cloneNum){
+    cloneNum -= 1;
+    for(var h = 0; h < cloneNum; h++){
+      for(var i = 0, L = this.length; i < L; i++){
+        cloneNode = this.col[i].cloneNode(true);
+        cloneNode.setAttribute('clone', 'clone');
+        this.contents.appendChild(cloneNode);
+      }
+    }
   },
   //自動切り替え
   autoChangeFunc: function(obj){
@@ -284,9 +342,13 @@ zflickjs.prototype = {
       obj.autoTimerCache.push(
         setInterval(function(){
           obj.autoChangeFlag = true;
-          if(obj.cur === obj.length - 1){
-            obj._orien = false;
-            obj.cur = 0;
+          if(!obj.loop){
+            if(obj.cur === obj.length - 1){
+              obj._orien = false;
+              obj.cur = 0;
+            }else{
+              obj._orien = true;
+            }
           }else{
             obj._orien = true;
           }

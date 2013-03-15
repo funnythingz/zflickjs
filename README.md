@@ -1,12 +1,13 @@
-#zflickjs v1.9
+#zflickjs v2.0a
 
 iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
 
 ## Updated of Lists
-リッチな表現やめました。超軽くなった
+ループで回遊する処理をつくったお。
 
 ## Usage
 <head>タグ内にzflick.cssとzflick.jsを読み込む。
+
 ```
 <link rel="stylesheet" href="zflick.css">
 <script type="text/javascript" src="zflick.js"></script>
@@ -32,6 +33,7 @@ HTMLを組む。高速化のためにJSで動かす要素はID指定になって
     <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
     <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
   </div>
+  <div id="zflickLamp"></div>
 </div>
 <div class="group" style="margin-top: 0.5em;">
   <span id="prev" class="zflickClickBtn" style="float: left;">prev</span>
@@ -41,6 +43,7 @@ HTMLを組む。高速化のためにJSで動かす要素はID指定になって
 
 ### JS
 new zflickjs({})で初期化
+
 ```
 <script>
 var init = function(){
@@ -49,6 +52,8 @@ var init = function(){
     contents: 'zcontents',
     col: 'zcol',
     width: 280,
+    loop: true,
+    lamp: 'zflickLamp',
     btn: {
       prev: 'prev',
       next: 'next'
@@ -75,6 +80,8 @@ window.addEventListener('load', init, false);
     * function(){console.log('moved')} ... moved callback method
 * btn: object
     * {prev: 'prevBtn', next: 'nextBtn'} ... click event element
+* loop: true
+    * true ... "true" looping!, "false" don't loop
 
 
 ## Credits

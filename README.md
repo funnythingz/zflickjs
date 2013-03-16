@@ -10,7 +10,7 @@ iOS, Androidなどのwebkitベースで提供するサービスではjQueryな�
 
 ```
 <link rel="stylesheet" href="zflick.css">
-<script type="text/javascript" src="zflick.js"></script>
+<script type="text/javascript" src="zflick-2.0.min.js"></script>
 ```
 
 
@@ -18,22 +18,20 @@ iOS, Androidなどのwebkitベースで提供するサービスではjQueryな�
 HTMLを組む。高速化のためにJSで動かす要素はID指定になっている。
 
 ```
-<div id="zflickjs">
+<div id="zflickjs" style="margin: 0 auto;">
   <div id="zcontents" class="group contents">
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/126x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
-    <div class="zcol"><a href="#" class="zlink"><img src="dummy/48x48.gif"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/0.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/1.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/2.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/3.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/4.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/5.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/6.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/7.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/8.jpg"></a></div>
+    <div class="zcol"><a href="#" class="zlink"><img src="dummy/9.jpg"></a></div>
   </div>
-  <div id="zflickLamp"></div>
+  <div id="zflickLamp" class="zlamp"></div>
 </div>
 <div class="group" style="margin-top: 0.5em;">
   <span id="prev" class="zflickClickBtn" style="float: left;">prev</span>

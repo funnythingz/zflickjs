@@ -216,7 +216,7 @@ header {
 	border-top-right-radius: 4px;
 	border-bottom-right-radius: 4px;
 	padding: 34px 25px 22px 50px;
-	margin: 30px 25px 0 0;
+	margin: 0 25px 0 0;
 	-webkit-font-smoothing: antialiased;
   z-index: 1;
 }
@@ -311,6 +311,7 @@ section {
   width:650px;
   float:right;
   padding-bottom: 20px;
+  overflow: hidden;
 }
 
 
@@ -374,12 +375,12 @@ footer {
   }
 
 	section {
-    padding:10px 0 10px 20px;
+    padding:10px;
     margin:0 0 30px;
   }
 
 	footer {
-		margin: 0 0 0 30px;
+		margin: 0 30px 30px;
 	}
 
   header ul, header p.view {

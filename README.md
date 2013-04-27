@@ -1,4 +1,4 @@
-#zflickjs v2.0
+#zflickjs v2.1
 
 iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
 
@@ -10,7 +10,7 @@ iOS, Androidなどのwebkitベースで提供するサービスではjQueryな�
 
 ```
 <link rel="stylesheet" href="zflick.css">
-<script type="text/javascript" src="zflick-2.0.min.js"></script>
+<script type="text/javascript" src="zflick-2.1.min.js"></script>
 ```
 
 

@@ -3,7 +3,7 @@
 iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
 
 ## Updated of Lists
-ループで回遊する処理をつくったお。
+lampクリックでカレント切り替えできるようにしたお
 
 ## Getting Started
 <head>タグ内にzflick.cssとzflick.jsを読み込む。

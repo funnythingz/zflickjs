@@ -1,6 +1,6 @@
 /**
 * zflickjs
-* @version 2.0
+* @version 2.1
 * @author: Hiroki Oiwa;
 * @url: http://funnythingz.github.com/zflickjs/
 * @license MIT (http://www.opensource.org/licenses/mit-license.php)

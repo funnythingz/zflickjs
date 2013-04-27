@@ -1,6 +1,5 @@
 @charset "utf-8";
 
-//@import "compass/reset";
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
 
@@ -32,8 +31,12 @@ body {
 
 h1 {
   padding: 0 5px;
+  font-size: 100%;
 }
-
+.container {
+  margin-right: 10px;
+  margin-left: 10px;
+}
 .contents {
   .zcol {
     width: 260px;
@@ -45,12 +48,36 @@ h1 {
 .zflickClickBtn {
   padding: 0 10px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  @include background-image(linear-gradient(left top,#eee 0%, #ccc 100%));
+  @include background-image(linear-gradient(right top,#eee 0%, #ccc 100%));
   font-size: 100%;
-  @include border-radius(8px);
+  @include border-radius(2px);
 }
 .zflickBtnCur {
-  @include background-image(linear-gradient(left top,#cdeb8e 0%, #a5c956 100%));
+  @include background-image(linear-gradient(top left,#cdeb8e 0%, #a5c956 100%));
+}
+.lamp {
+  text-align: center;
+  > div {
+    display: inline-block;
+    background-color: #aab4be;
+    width: 12px;
+    height: 4px;
+    margin: 0 4px;
+    &.cur {
+      background-color:#00a0dc;
+    }
+  }
+}
+.menu {
+  ul {
+    > li {
+      display: inline-block;
+      margin-right: 0.5em;
+      &.last-child {
+        margin-right: 0;
+      }
+    }
+  }
 }
 img {
   width: 100%;

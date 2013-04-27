@@ -1,6 +1,5 @@
 @charset "utf-8";
 
-//@import "compass/reset";
 @import "compass/css3";
 @import "compass/utilities/general/clearfix";
 
@@ -28,10 +27,18 @@ img {
 body {
   margin: 0;
   padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 h1 {
   padding: 0 5px;
+}
+.lv1 {font-size: 140%; font-family: serif;}
+.lv2 {font-size: 120%;}
+
+.container {
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .contents {
   .zcol {
@@ -44,18 +51,15 @@ h1 {
 .zflickClickBtn {
   padding: 0 10px;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  @include background-image(linear-gradient(top left,#eee 0%, #ccc 100%));
   font-size: 100%;
   @include border-radius(2px);
 }
 .zflickBtnCur {
-  @include background-image(linear-gradient(top left,#f7f8f9 0%, #e7e8e9 100%));
+  background-color: #e7e8e9;
 }
-img {
-  width: 100%;
-}
-.zlamp {
+.lamp {
   text-align: center;
+  cursor: pointer;
   > div {
     display: inline-block;
     background-color: #aab4be;
@@ -63,7 +67,38 @@ img {
     height: 4px;
     margin: 0 4px;
     &.cur {
-      background-color: #00a0dc;
+      background-color:#00a0dc;
     }
+  }
+}
+.menu {
+  ul {
+    margin: 0;
+    padding: 0;
+    > li {
+      display: inline-block;
+      margin-right: 0.5em;
+      white-space: nowrap;
+      &.last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+img {
+  width: 100%;
+}
+/* Gist */
+.gist {
+  margin: 1em 0;
+  padding: 0 0 1em;
+  font-size: 75%;
+  border-bottom: solid 1px #f1f2f3;
+  .gist-data {
+    background-color: #f7f8f9 !important;
+  }
+  .line,
+  .line-number {
+    line-height: 1.5 !important;
   }
 }

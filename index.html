@@ -26,7 +26,7 @@
         <p class="header">This project is maintained by <a class="header name" href="https://github.com/funnythingz">funnythingz</a></p>
       </header>
       <section class="section">
-        <h1 class="heading1">zflickjs v2.0</h1>
+        <h1 class="heading1">zflickjs v2.1</h1>
         <p>iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた</p>
 
         <section>
@@ -38,7 +38,7 @@
           <p><a href="demo.html">Demoをみる</a></p>
 
           <link rel="stylesheet" href="css/zflick.css">
-          <script type="text/javascript" src="zflick-2.0.min.js"></script>
+          <script type="text/javascript" src="zflick-2.1.min.js"></script>
           <div id="zflickjs" style="margin: 0 auto;">
             <div id="zcontents" class="group contents">
               <div class="zcol"><a href="#" class="zlink"><img src="dummy/0.jpg"></a></div>
@@ -64,25 +64,25 @@
             contents: 'zcontents',
             col: 'zcol',
             width: 280,
-            loop: true,
             autoChange: true,
             lamp: 'zflickLamp',
             btn: {
               prev: 'prev',
               next: 'next'
-            }
+            },
+            loop: true
           });
           </script>
 
         </section>
         <section>
           <h1 class="heading2">Getting Started</h1>
-          <p>タグ内にzflick.cssとzflick-2.0.min.jsを読み込む。</p>
+          <p>タグ内にzflick.cssとzflick-2.1.min.jsを読み込む。</p>
           <script src="https://gist.github.com/funnythingz/5170511.js"></script>
 
           <article>
             <h1 class="heading3">HTML</h1>
-            <p>HTMLを組む。高速化のためにJSで動かす要素はID指定になっている。</p>
+            <p>HTMLを組む。基本的にJSで動かす要素はID指定になっている。</p>
             <script src="https://gist.github.com/funnythingz/5170685.js"></script>
           </article>
           <article>

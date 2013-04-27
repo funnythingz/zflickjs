@@ -294,9 +294,23 @@ zflickjs.prototype = {
   },
   //DOM lampを生成
   createLamp: function(){
+    var self = this;
     if(this.lamp){
       for(var i = 0; i < this.length; i++){
         this.lamps[i] = document.createElement('div');
+        
+        //lampをクリックしたらその位置にアニメーションする
+        (function(l){
+          self.lamps[l].addEventListener('click', function(){
+            if(self.autoChange) self.killAutoChange();
+            self.cur = (self._orien)? l - 1: l + 1;
+            self.animation(self);
+            self.btnCurrentAction();
+            self.setLamps(self.cur);
+            if(self.autoChange) self.autoChangeFunc();
+          }, false);
+        })(i);
+
         this.lamp.appendChild(this.lamps[i]);
       }
     }

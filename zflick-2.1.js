@@ -63,248 +63,251 @@ zflickjs.prototype = {
   //初期化
   init: function(){
     //DOMセット
-    this.domInit(this);
+    this.domInit();
     //touchイベントセット
-    this.touchInit(this);
+    this.touchInit();
     //clickイベントセット
     if(this._btnFlag){
-      this.clickPrevInit(this);
-      this.clickNextInit(this);
+      this.clickPrevInit();
+      this.clickNextInit();
     }
     //lampセット
-    this.createLamp(this);
+    this.createLamp();
     //初期位置にセット
     this.animation(this);
     
     //自動切り替えセット
-    this.resetAutoChange(this);
+    this.resetAutoChange();
     
     //コールバック
     this.initCallback();
     
     //resize登録
-    //this.resizeInit(this);
+    //this.resizeInit();
   },
   //タッチイベント
-  touchInit: function(obj){
+  touchInit: function(){
     var aflag = false;
+    var self = this;
     //event
-    obj.contents.addEventListener('touchstart', function(e){
-      obj._cStartPosX = e.touches[0].clientX;
-      obj._cStartPosY = e.touches[0].clientY;
-      obj.killAutoChange(obj);
+    this.contents.addEventListener('touchstart', function(e){
+      self._cStartPosX = e.touches[0].clientX;
+      self._cStartPosY = e.touches[0].clientY;
+      self.killAutoChange();
     }, false);
-    obj.contents.addEventListener('touchmove', function(e){
-      if(Math.abs(obj._cStartPosY - e.touches[0].clientY) > obj.disY){
+    this.contents.addEventListener('touchmove', function(e){
+      if(Math.abs(self._cStartPosY - e.touches[0].clientY) > self.disY){
         //Y軸スクロールの場合フリックをキャンセル
       }else{
         if(!aflag){
-          obj._cDistance = obj._cStartPosX - e.touches[0].clientX;
-          obj._cHoge = obj._cNowPos;
+          self._cDistance = self._cStartPosX - e.touches[0].clientX;
+          self._cHoge = self._cNowPos;
           //<- plus
-          if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance > 0)){
+          if(self.disX < Math.abs(self._cDistance) && (self._cDistance > 0)){
             e.preventDefault();
             e.stopPropagation();
-            obj._cHoge = obj._cNowPos - Math.abs(obj._cDistance);
-            obj._orien = true;
+            self._cHoge = self._cNowPos - Math.abs(self._cDistance);
+            self._orien = true;
             aflag = true;
           }
           //-> minus
-          else if(obj.disX < Math.abs(obj._cDistance) && (obj._cDistance < 0)){
+          else if(self.disX < Math.abs(self._cDistance) && (self._cDistance < 0)){
             e.preventDefault();
             e.stopPropagation();
-            obj._cHoge = obj._cNowPos + Math.abs(obj._cDistance);
-            obj._orien = false;
+            self._cHoge = self._cNowPos + Math.abs(self._cDistance);
+            self._orien = false;
             aflag = true;
           }
           if(aflag){
-            obj.animation(obj);
-            obj._cDistance = 0;
-            obj.resetAutoChange(obj);
+            self.animation(self);
+            self._cDistance = 0;
+            self.resetAutoChange();
           }
         }
       }
     }, false);
-    obj.contents.addEventListener('touchend', function(e){
+    this.contents.addEventListener('touchend', function(e){
       aflag = false;
     }, false);
   },
   //アニメーション
-  animation: function(obj){
-    if(obj._orien){
-      obj.cur += 1;
-      if(obj.cur < obj.length){
-        if(obj.loop && (obj.cur === (obj.length - 1))){
-          obj._cNowPos = (obj.warray[0] + (obj.idWidth * 2));
-          obj.noTransAnimate(obj);
-          obj._cNowPos = (obj.warray[0] + obj.idWidth);
+  animation: function(args){
+    if(args._orien){
+      args.cur += 1;
+      if(args.cur < args.length){
+        if(args.loop && (args.cur === (args.length - 1))){
+          args._cNowPos = (args.warray[0] + (args.idWidth * 2));
+          args.noTransAnimate(args);
+          args._cNowPos = (args.warray[0] + args.idWidth);
         }else{
-          obj._cNowPos = obj.warray[obj.cur];
+          args._cNowPos = args.warray[args.cur];
         }
       }else{
-        if(obj.loop && (obj.cur === obj.length)){
-          obj._cNowPos = (obj.warray[0] + obj.idWidth);
-          obj.noTransAnimate(obj);
-          obj._cNowPos = obj.warray[obj.cur];
+        if(args.loop && (args.cur === args.length)){
+          args._cNowPos = (args.warray[0] + args.idWidth);
+          args.noTransAnimate(args);
+          args._cNowPos = args.warray[args.cur];
         }
-        obj.cur = (!obj.loop)? obj.length - 1: 0;
-        obj._cNowPos = obj.warray[obj.cur];
+        args.cur = (!args.loop)? args.length - 1: 0;
+        args._cNowPos = args.warray[args.cur];
       }
     }else{
-      obj.cur = (obj._initFlag)? obj.cur: (obj.cur - 1);
-      if(obj.cur > 0){
-        obj._cNowPos = obj.warray[obj.cur];
-        if(obj.loop && (obj.cur === (obj.length - 2))){
-          obj._cNowPos = obj.warray[(obj.length - 1)];
-          obj.noTransAnimate(obj);
-          obj._cNowPos = (obj.warray[obj.cur]);
+      args.cur = (args._initFlag)? args.cur: (args.cur - 1);
+      if(args.cur > 0){
+        args._cNowPos = args.warray[args.cur];
+        if(args.loop && (args.cur === (args.length - 2))){
+          args._cNowPos = args.warray[(args.length - 1)];
+          args.noTransAnimate(args);
+          args._cNowPos = (args.warray[args.cur]);
         }
-      }else if(obj.cur <= 0){
-        if(obj.loop && (obj.cur < 0)){
-          obj.cur = (obj.length - 1);
-          obj._cNowPos = (obj.warray[(obj.length - 1)] - obj.idWidth);
-          obj.noTransAnimate(obj);
+      }else if(args.cur <= 0){
+        if(args.loop && (args.cur < 0)){
+          args.cur = (args.length - 1);
+          args._cNowPos = (args.warray[(args.length - 1)] - args.idWidth);
+          args.noTransAnimate(args);
         }else{
-          obj.cur = 0;
+          args.cur = 0;
         }
-        obj._cNowPos = obj.warray[obj.cur];
+        args._cNowPos = args.warray[args.cur];
       }
     }
     setTimeout(function(){
-      obj.transAnimate(obj);
+      args.transAnimate(args);
     },1);
-    obj.btnCurrentAction(obj);
-    obj.setLamps(obj,obj.cur);
-    obj._initFlag = false;
+    args.btnCurrentAction();
+    args.setLamps(args.cur);
+    args._initFlag = false;
   },
   //transitionあるときのアニメーション
-  transAnimate: function(obj){
-    if(/AppleWebKit/.test(obj._ua)){
-      obj.contents.style.webkitTransition = '-webkit-transform 0.3s ease-in-out';
-      obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+  transAnimate: function(args){
+    if(/AppleWebKit/.test(args._ua)){
+      args.contents.style.webkitTransition = '-webkit-transform 0.3s ease-in-out';
+      args.contents.style.webkitTransform = 'translate3d(' + args._cNowPos + 'px, 0, 0)';
     }
-    else if(/Firefox/.test(obj._ua)){
-      obj.contents.style.MozTransition = '-moz-transform 0.3s ease-in-out';
-      obj.contents.style.MozTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+    else if(/Firefox/.test(args._ua)){
+      args.contents.style.MozTransition = '-moz-transform 0.3s ease-in-out';
+      args.contents.style.MozTransform = 'translate3d(' + args._cNowPos + 'px, 0, 0)';
     }
     setTimeout(function(){
-      obj.moveCallback();
+      args.moveCallback();
     },300);
   },
   //transition:none;のときのアニメーション
   //主にtouchmoveのときに使う
-  noTransAnimate: function(obj){
-    if(/AppleWebKit/.test(obj._ua)){
-      obj.contents.style.webkitTransition = 'none';
-      obj.contents.style.webkitTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+  noTransAnimate: function(args){
+    if(/AppleWebKit/.test(args._ua)){
+      args.contents.style.webkitTransition = 'none';
+      args.contents.style.webkitTransform = 'translate3d(' + args._cNowPos + 'px, 0, 0)';
     }
-    else if(/Firefox/.test(obj._ua)){
-      obj.contents.style.MozTransition = 'none';
-      obj.contents.style.MozTransform = 'translate3d(' + obj._cNowPos + 'px, 0, 0)';
+    else if(/Firefox/.test(args._ua)){
+      args.contents.style.MozTransition = 'none';
+      args.contents.style.MozTransform = 'translate3d(' + args._cNowPos + 'px, 0, 0)';
     }
   },
   //ボタンのカレント表示切替
-  btnCurrentAction: function(obj){
-    if(obj._btnFlag){
-      if(!obj.loop){
+  btnCurrentAction: function(){
+    if(this._btnFlag){
+      if(!this.loop){
         //最初
-        if(obj.cur <= 0){
-          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) > 0){
-            obj.btnPrev.className = obj.btnPrev.className.replace(obj.btnActiveClassName, '');
+        if(this.cur <= 0){
+          if(this.btnPrev.className.indexOf(this.btnActiveClassName) > 0){
+            this.btnPrev.className = this.btnPrev.className.replace(this.btnActiveClassName, '');
           }
-          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
+          if(this.btnNext.className.indexOf(this.btnActiveClassName) < 0) this.btnNext.className += (' ' + this.btnActiveClassName);
         }
         //最後
-        else if(obj.cur === obj.length - 1){
-          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
-          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) > 0){
-            obj.btnNext.className = obj.btnNext.className.replace(obj.btnActiveClassName, '');
+        else if(this.cur === this.length - 1){
+          if(this.btnPrev.className.indexOf(this.btnActiveClassName) < 0) this.btnPrev.className += (' ' + this.btnActiveClassName);
+          if(this.btnNext.className.indexOf(this.btnActiveClassName) > 0){
+            this.btnNext.className = this.btnNext.className.replace(this.btnActiveClassName, '');
           }
         }
         //中間
         else{
-          if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
-          if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
+          if(this.btnPrev.className.indexOf(this.btnActiveClassName) < 0) this.btnPrev.className += (' ' + this.btnActiveClassName);
+          if(this.btnNext.className.indexOf(this.btnActiveClassName) < 0) this.btnNext.className += (' ' + this.btnActiveClassName);
         }
       }else{
-        if(obj.btnNext.className.indexOf(obj.btnActiveClassName) < 0) obj.btnNext.className += (' ' + obj.btnActiveClassName);
-        if(obj.btnPrev.className.indexOf(obj.btnActiveClassName) < 0) obj.btnPrev.className += (' ' + obj.btnActiveClassName);
+        if(this.btnNext.className.indexOf(this.btnActiveClassName) < 0) this.btnNext.className += (' ' + this.btnActiveClassName);
+        if(this.btnPrev.className.indexOf(this.btnActiveClassName) < 0) this.btnPrev.className += (' ' + this.btnActiveClassName);
       }
     }
   },
   //クリックイベント prev
-  clickPrevInit: function(obj){
-    obj.btnPrev.addEventListener('click', function(e){
-      obj._orien = false;
-      obj.animation(obj);
-      obj.killAutoChange(obj);
+  clickPrevInit: function(){
+    var self = this;
+    this.btnPrev.addEventListener('click', function(e){
+      self._orien = false;
+      self.animation(self);
+      self.killAutoChange();
       setTimeout(function(){
-        obj.resetAutoChange(obj);
-      }, obj.autoTimer);
+        self.resetAutoChange();
+      }, self.autoTimer);
     },false);
   },
   //クリックイベント next
-  clickNextInit: function(obj){
-    obj.btnNext.addEventListener('click', function(e){
-      obj._orien = true;
-      obj.animation(obj);
-      obj.killAutoChange(obj);
+  clickNextInit: function(){
+    var self = this;
+    this.btnNext.addEventListener('click', function(e){
+      self._orien = true;
+      self.animation(self);
+      self.killAutoChange();
       setTimeout(function(){
-        obj.resetAutoChange(obj);
-      }, obj.autoTimer);
+        self.resetAutoChange();
+      }, self.autoTimer);
     },false);
   },
   //リサイズイベント
-  resizeInit: function(obj){
-    var self = obj;
+  resizeInit: function(){
+    var self = this;
     var timer = false;
     window.addEventListener('resize',function(){
       if (timer !== false) {
         clearTimeout(timer);
       }
       timer = setTimeout(function(){
-        self.domInit(self);
+        self.domInit();
         self.animation(self);
-        self.resetAutoChange(self);
+        self.resetAutoChange();
       }, 200);
     }, false);
   },
   //パーツの横幅をセット
-  domInit: function(obj){
+  domInit: function(){
     //param
-    obj.id.style.width = 'auto';
-    if(!obj.isArgsWidth) obj.idWidth = obj.id.clientWidth;
-    obj.length = obj.col.length;
+    this.id.style.width = 'auto';
+    if(!this.isArgsWidth) this.idWidth = this.id.clientWidth;
+    this.length = this.col.length;
     //id
-    obj.id.style.width = obj.idWidth + 'px';
+    this.id.style.width = this.idWidth + 'px';
     //contents
-    if(!obj.loop){
+    if(!this.loop){
       //default
-      obj.contents.style.width = obj.getContentsWidth() + 'px';
+      this.contents.style.width = this.getContentsWidth() + 'px';
     }else{
       //loop init
-      obj._totalWidth = obj.getContentsWidth();
-      obj.contents.style.width = (obj._totalWidth * obj.cloneLength) + 'px';
-      obj.cloneNode(obj.cloneLength);
-      obj.loopInitPos();
+      this._totalWidth = this.getContentsWidth();
+      this.contents.style.width = (this._totalWidth * this.cloneLength) + 'px';
+      this.cloneNode(this.cloneLength);
+      this.loopInitPos();
     }
   },
   //DOM lampを生成
-  createLamp: function(obj){
-    if(obj.lamp){
-      for(var i = 0; i < obj.length; i++){
-        obj.lamps[i] = document.createElement('div');
-        obj.lamp.appendChild(obj.lamps[i]);
+  createLamp: function(){
+    if(this.lamp){
+      for(var i = 0; i < this.length; i++){
+        this.lamps[i] = document.createElement('div');
+        this.lamp.appendChild(this.lamps[i]);
       }
     }
   },
   //lampの位置セット
-  setLamps: function(obj, num){
-    if(obj.lamp){
-      for(var i = 0; i < obj.length; i++){
-        obj.lamps[i].setAttribute('class','');
+  setLamps: function(num){
+    if(this.lamp){
+      for(var i = 0; i < this.length; i++){
+        this.lamps[i].setAttribute('class','');
       }
-      obj.lamps[num].setAttribute('class',obj.lampActiveClassName);
+      this.lamps[num].setAttribute('class',this.lampActiveClassName);
     }
   },
   //コンテンツ全体の横幅を取得
@@ -337,40 +340,41 @@ zflickjs.prototype = {
     }
   },
   //自動切り替え
-  autoChangeFunc: function(obj){
-    if(!obj.autoChangeFlag){
-      obj.autoTimerCache.push(
+  autoChangeFunc: function(){
+    if(!this.autoChangeFlag){
+      var self = this;
+      this.autoTimerCache.push(
         setInterval(function(){
-          obj.autoChangeFlag = true;
-          if(!obj.loop){
-            if(obj.cur === obj.length - 1){
-              obj._orien = false;
-              obj.cur = 0;
+          self.autoChangeFlag = true;
+          if(!self.loop){
+            if(self.cur === self.length - 1){
+              self._orien = false;
+              self.cur = 0;
             }else{
-              obj._orien = true;
+              self._orien = true;
             }
           }else{
-            obj._orien = true;
+            self._orien = true;
           }
-          obj.animation(obj);
-        },obj.autoTimer)
+          self.animation(self);
+        },this.autoTimer)
       );
     }
   },
   //自動切り替え開始メソッド
-  resetAutoChange: function(obj){
-    if(obj.autoChange){
-      obj.killAutoChange(obj);
-      obj.autoChangeFunc(obj);
+  resetAutoChange: function(){
+    if(this.autoChange){
+      this.killAutoChange();
+      this.autoChangeFunc();
     }
   },
   //自動切り替え停止メソッド
-  killAutoChange: function(obj){
+  killAutoChange: function(){
     if(this.autoChange){
-      obj.autoChangeFlag = false;
-      for(var i = 0, L = obj.autoTimerCache.length; i < L; i++){
-        clearInterval(obj.autoTimerCache[i]);
-        obj.autoTimerCache.splice(i,1);
+      this.autoChangeFlag = false;
+      for(var i = 0, L = this.autoTimerCache.length; i < L; i++){
+        clearInterval(this.autoTimerCache[i]);
+        this.autoTimerCache.splice(i,1);
       }
     }
   }

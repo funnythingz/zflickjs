@@ -1,0 +1,155 @@
+@charset "utf-8";
+/* Master */
+/* line 7, ../sass/zflick.scss */
+img {
+  border: 0 none;
+  vertical-align: bottom;
+}
+
+/* line 11, ../sass/zflick.scss */
+.zcol {
+  display: inline-block;
+  float: left;
+}
+
+/* line 13, ../sass/zflick.scss */
+.zflickClickBtn {
+  display: inline-block;
+}
+
+/* line 16, ../sass/zflick.scss */
+.zflickBtnCur {
+  cursor: pointer;
+}
+
+/* line 19, ../sass/zflick.scss */
+.zlink {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* line 22, ../sass/zflick.scss */
+.group,
+.clearfix {
+  *zoom: 1;
+}
+/* line 22, ../../../../../Library/Ruby/Gems/1.8/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/general/_clearfix.scss */
+.group:after,
+.clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* Custom */
+/* line 27, ../sass/zflick.scss */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+/* line 33, ../sass/zflick.scss */
+h1 {
+  padding: 0 5px;
+}
+
+/* line 36, ../sass/zflick.scss */
+.lv1 {
+  font-size: 140%;
+  font-family: serif;
+}
+
+/* line 37, ../sass/zflick.scss */
+.lv2 {
+  font-size: 120%;
+}
+
+/* line 39, ../sass/zflick.scss */
+.container {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+/* line 44, ../sass/zflick.scss */
+.contents .zcol {
+  width: 260px;
+  text-align: center;
+  padding: 0 10px;
+}
+
+/* line 51, ../sass/zflick.scss */
+.zflickClickBtn {
+  padding: 0 10px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-size: 100%;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -o-border-radius: 2px;
+  border-radius: 2px;
+}
+
+/* line 57, ../sass/zflick.scss */
+.zflickBtnCur {
+  background-color: #e7e8e9;
+}
+
+/* line 60, ../sass/zflick.scss */
+.lamp {
+  text-align: center;
+  cursor: pointer;
+}
+/* line 63, ../sass/zflick.scss */
+.lamp > div {
+  display: inline-block;
+  background-color: #aab4be;
+  width: 12px;
+  height: 4px;
+  margin: 0 4px;
+}
+/* line 69, ../sass/zflick.scss */
+.lamp > div.cur {
+  background-color: #00a0dc;
+}
+
+/* line 75, ../sass/zflick.scss */
+.menu ul {
+  margin: 0;
+  padding: 0;
+}
+/* line 78, ../sass/zflick.scss */
+.menu ul > li {
+  display: inline-block;
+  margin-right: 0.5em;
+  white-space: nowrap;
+}
+/* line 82, ../sass/zflick.scss */
+.menu ul > li.last-child {
+  margin-right: 0;
+}
+
+/* line 88, ../sass/zflick.scss */
+img {
+  width: 100%;
+}
+
+/* Gist */
+/* line 93, ../sass/zflick.scss */
+.gist {
+  margin: 1em 0;
+  padding: 0 0 1em;
+  font-size: 75%;
+  border-bottom: solid 1px #f1f2f3;
+}
+/* line 98, ../sass/zflick.scss */
+.gist .gist-data {
+  background-color: #f7f8f9 !important;
+}
+/* line 102, ../sass/zflick.scss */
+.gist .line,
+.gist .line-number {
+  line-height: 1.5 !important;
+}

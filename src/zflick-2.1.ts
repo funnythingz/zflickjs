@@ -13,10 +13,10 @@ var zflickjs = function(args){
   this.id = document.getElementById(args.id);
   this.contents = document.getElementById(args.contents);
   this.col = this.contents.getElementsByClassName(args.col);
-  this.lamp = (args.lamp)? document.getElementById(args.lamp): false;
+  this.lamp = (args.lamp)? document.getElementById(args.lamp): null;
   this.lampActiveClassName = (args.lampActiveClassName)? args.lampActiveClassName: 'cur';
-  this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): false;
-  this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
+  this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): null;
+  this.btnNext = (args.btn)? document.getElementById(args.btn.next): null;
   this.btnActiveClassName = (args.btnActiveClassName)? args.btnActiveClassName: 'zflickBtnCur';
   this.move = (args.move)? args.move: false;
   this.loop = (args.loop)? args.loop: false;
@@ -260,7 +260,7 @@ zflickjs.prototype = {
   //リサイズイベント
   resizeInit: function(){
     var self = this;
-    var timer = false;
+    var timer: any = false;
     window.addEventListener('resize',function(){
       if (timer !== false) {
         clearTimeout(timer);
@@ -347,9 +347,9 @@ zflickjs.prototype = {
     cloneNum -= 1;
     for(var h = 0; h < cloneNum; h++){
       for(var i = 0, L = this.length; i < L; i++){
-        cloneNode = this.col[i].cloneNode(true);
-        cloneNode.setAttribute('clone', 'clone');
-        this.contents.appendChild(cloneNode);
+        var cloneElm = this.col[i].cloneNode(true);
+        cloneElm.setAttribute('clone', 'clone');
+        this.contents.appendChild(cloneElm);
       }
     }
   },

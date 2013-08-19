@@ -1,0 +1,26 @@
+{
+  "name": "zflickjs",
+  "version": "2.2",
+  "description": "iOS, Android に特化した超軽量なflickjsをつくってるお",
+  "main": "zflick.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/funnythingz/zflickjs"
+  },
+  "author": "funnythingz",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/funnythingz/zflickjs/issues"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-contrib-sass": "~0.4.1",
+    "grunt-contrib-compass": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-connect": "~0.3.0"
+  }
+}

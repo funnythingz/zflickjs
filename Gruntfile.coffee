@@ -4,12 +4,12 @@ module.exports = (grunt)->
 
     uglify:
       build:
-        files: 'zflick.min.js': ['zflick.js']
+        files: 'public/zflick.min.js': ['public/zflick.js']
 
     concat:
       zflick:
         src: ['src/**/*.js']
-        dest: 'zflick.js'
+        dest: 'public/zflick.js'
 
       options:
         separator: ';'
@@ -59,5 +59,5 @@ module.exports = (grunt)->
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-contrib-clean')
 
-  grunt.registerTask('default', ['watch'])
+  grunt.registerTask('default', ['typescript', 'concat', 'uglify', 'clean', 'compass'])
   grunt.registerTask('server', ['connect'])

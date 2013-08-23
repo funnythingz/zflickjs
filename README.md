@@ -1,21 +1,17 @@
-#zflickjs v2.1
+#zflickjs v3
 
-iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
-
-## Updated of Lists
-lampクリックでカレント切り替えできるようにしたお
+TypeScript flickable UI library
 
 ## Getting Started
 <head>タグ内にzflick.cssとzflick.jsを読み込む。
 
 ```
 <link rel="stylesheet" href="zflick.css">
-<script type="text/javascript" src="zflick-2.1.min.js"></script>
+<script type="text/javascript" src="zflick-3.min.js"></script>
 ```
 
 
 ### HTML
-HTMLを組む。高速化のためにJSで動かす要素はID指定になっている。
 
 ```
 <div id="zflickjs" style="margin: 0 auto;">
@@ -45,8 +41,7 @@ new zflickjs({})で初期化
 ```
 <script>
 var init = function(){
-  new zflickjs({
-    id: 'zflickjs',
+  var options = {
     contents: 'zcontents',
     col: 'zcol',
     width: 280,
@@ -56,7 +51,9 @@ var init = function(){
       prev: 'prev',
       next: 'next'
     }
-  });
+  };
+
+  new zflickjs('zflickjs', options);
 }
 window.addEventListener('load', init, false);
 </script>
@@ -81,5 +78,5 @@ window.addEventListener('load', init, false);
 * loop: true
     * true ... "true" looping!, "false" don't loop
 
-## Credits
-<a href="http://www.funnythingz.com">funnythingz</a>
+<hr>
+funnythingz

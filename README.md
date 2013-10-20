@@ -2,8 +2,11 @@
 
 iOS, Androidなどのwebkitベースで提供するサービスではjQueryなどのライブラリを使わず、pureなJavaScriptで実装した方がパフォーマンス良いんじゃないかと思って作ってみた
 
-## Updated of Lists
-lampクリックでカレント切り替えできるようにしたお
+## Install
+
+```sh
+% bower install zflickjs
+```
 
 ## Getting Started
 <head>タグ内にzflick.cssとzflick.jsを読み込む。

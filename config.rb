@@ -1,7 +1,7 @@
 http_path = "./"
-css_dir = (environment == :production) ? "css" : "css_debug"
+css_dir = "./"
 sass_dir = "sass"
 images_dir = "./images/"
 javascripts_dir = "./"
-line_comments = true
-output_style = (environment == :production) ? :compressed : :expanded
+line_comments = false
+output_style = :compressed

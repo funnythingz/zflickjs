@@ -1,0 +1,27 @@
+{
+  "name": "zflickjs",
+  "version": "2.1.0",
+  "authors": [
+    "funnythingz"
+  ],
+  "main": [
+    "zflick.js",
+    "zflick.min.js",
+    "zflick.css",
+    "demo.html"
+  ],
+  "license": "MIT",
+  "homepage": "http://funnythingz.github.io/zflickjs/",
+  "ignore": [
+    "**/.*",
+    "dummy",
+    "sass",
+    "node_modules",
+    "Gruntfile.coffee",
+    "package.json",
+    "config.rb",
+    "bower.json",
+    "README.md",
+    "package,json"
+  ]
+}

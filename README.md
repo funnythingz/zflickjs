@@ -11,7 +11,7 @@ iOS, Androidなどのwebkitベースで提供するサービスではjQueryな�
 ## Getting Started
 <head>タグ内にzflick.cssとzflick.jsを読み込む。
 
-```
+```html
 <link rel="stylesheet" href="zflick.css">
 <script type="text/javascript" src="zflick.min.js"></script>
 ```
@@ -20,7 +20,7 @@ iOS, Androidなどのwebkitベースで提供するサービスではjQueryな�
 ### HTML
 HTMLを組む。高速化のためにJSで動かす要素はID指定になっている。
 
-```
+```html
 <div id="zflickjs" style="margin: 0 auto;">
   <div id="zcontents" class="group contents">
     <div class="zcol"><a href="#" class="zlink"><img src="dummy/0.jpg"></a></div>
@@ -45,8 +45,7 @@ HTMLを組む。高速化のためにJSで動かす要素はID指定になって
 ### JS
 new zflickjs({})で初期化
 
-```
-<script>
+```js
 var init = function(){
   new zflickjs({
     id: 'zflickjs',
@@ -62,7 +61,6 @@ var init = function(){
   });
 }
 window.addEventListener('load', init, false);
-</script>
 ```
 
 ## Options

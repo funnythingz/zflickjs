@@ -22,6 +22,6 @@
     "config.rb",
     "bower.json",
     "README.md",
-    "package,json"
+    "license.min.js"
   ]
 }

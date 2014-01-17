@@ -13,18 +13,18 @@ var zflickjs = function(args){
   this.id = document.getElementById(args.id);
   this.contents = document.getElementById(args.contents);
   this.col = this.contents.getElementsByClassName(args.col);
-  this.lamp = (args.lamp)? document.getElementById(args.lamp): false;
-  this.lampActiveClassName = (args.lampActiveClassName)? args.lampActiveClassName: 'cur';
+  this.lamp = document.getElementById(args.lamp) || false;
+  this.lampActiveClassName = args.lampActiveClassName || 'cur';
   this.btnPrev = (args.btn)? document.getElementById(args.btn.prev): false;
   this.btnNext = (args.btn)? document.getElementById(args.btn.next): false;
-  this.btnActiveClassName = (args.btnActiveClassName)? args.btnActiveClassName: 'zflickBtnCur';
-  this.move = (args.move)? args.move: false;
-  this.loop = (args.loop)? args.loop: false;
-  this.autoChange = (args.autoChange)? args.autoChange: false;
-  this.autoTimer = (args.autoTimer)? args.autoTimer: 5000;
-  this.cur = (args.cur)? args.cur: 0;
-  this.initCallback = (args.initCallback)? args.initCallback: function(){}; //初期化完了後のコールバック関数
-  this.moveCallback = (args.moveCallback)? args.moveCallback: function(){}; //コンテンツが動いたあとのコールバック関数
+  this.btnActiveClassName = args.btnActiveClassName || 'zflickBtnCur';
+  this.move = args.move || false;
+  this.loop = args.loop || false;
+  this.autoChange = args.autoChange || false;
+  this.autoTimer = args.autoTimer || 5000;
+  this.cur = args.cur || 0;
+  this.initCallback = args.initCallback || function(){}; //初期化完了後のコールバック関数
+  this.moveCallback = args.moveCallback || function(){}; //コンテンツが動いたあとのコールバック関数
   
   //param
   this.isArgsWidth = (!args.width || args.width <= 0)? false: true;
